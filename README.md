@@ -7,7 +7,7 @@
  Verrà implementata un’applicazione web per la gestione dell'esecuzione dei job e la consultazione dei dati, in modalità tabellare e grafica.
 
 ## Obiettivi Formativi
- La finalità del progetto è risolvere un problema finanziario attraverso la realizzazione di un’architettura moderna ed efficiente in grado di gestire moli di dati (in contesto concorrenziale).
+ La finalità del progetto è risolvere un problema finanziario attraverso la realizzazione di un’architettura moderna ed efficiente in grado di gestire moli di dati (in contesto concorrenziale?).
 
  Tecnologie:
 - Java 11
