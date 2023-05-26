@@ -1,6 +1,7 @@
 
 CREATE TABLE schedule (
 	job serial PRIMARY KEY,
+	creation integer NOT NULL,
 	start integer NOT NULL,
 	stop integer,
 	timespan varchar(15),
@@ -15,3 +16,12 @@ CREATE TABLE run (
 	status varchar NOT NULL,
 	job_id integer NOT NULL REFERENCES schedule(job)
 );
+
+ALTER TABLE schedule
+ADD COLUMN creation integer NOT NULL;
+
+select * from schedule;
+select * from run;
+
+insert into schedule (creation, start, forex_ticker)
+values (01, 01, 'c:EURUSD')
