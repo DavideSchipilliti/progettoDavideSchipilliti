@@ -1,4 +1,4 @@
-package entities;
+package it.perigea.entities;
 
 public enum Timespan {
 	minute,

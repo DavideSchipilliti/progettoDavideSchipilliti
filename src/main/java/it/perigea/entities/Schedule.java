@@ -1,4 +1,4 @@
-package entities;
+package it.perigea.entities;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +18,8 @@ public class Schedule {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long job;
 	@Column(nullable = false)
+	private Integer creation;
+	@Column(nullable = false)
 	private Integer start;
 	@Column
 	private Integer stop;
@@ -27,7 +29,7 @@ public class Schedule {
 	private Integer multiplier;
 	@Column(name = "forex_ticker")
 	private String forexTicker;
-	@OneToMany (mappedBy = "run", cascade = CascadeType.ALL)
+	@OneToMany (mappedBy = "job", cascade = CascadeType.ALL)
 	List<Run> executed;
 	
 	public Schedule() {

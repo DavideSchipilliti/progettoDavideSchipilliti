@@ -1,4 +1,4 @@
-package entities;
+package it.perigea.entities;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -15,7 +15,7 @@ public class Run {
 	@Column (nullable=false)
 	private Integer started;
 	@Column (nullable=false)
-	private Integer finisched;
+	private Integer finished;
 	@Column (nullable=false)
 	private String status;
 	@ManyToOne (cascade = CascadeType.ALL)
@@ -35,11 +35,11 @@ public class Run {
 	public void setStarted(Integer started) {
 		this.started = started;
 	}
-	public Integer getFinisched() {
-		return finisched;
+	public Integer getFinished() {
+		return finished;
 	}
-	public void setFinisched(Integer finisched) {
-		this.finisched = finisched;
+	public void setFinished(Integer finished) {
+		this.finished = finished;
 	}
 	public String getStatus() {
 		return status;
