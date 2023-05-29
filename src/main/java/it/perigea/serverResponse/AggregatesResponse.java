@@ -1,4 +1,4 @@
-package serverResponse;
+package it.perigea.serverResponse;
 
 import java.util.ArrayList;
 import java.util.List;

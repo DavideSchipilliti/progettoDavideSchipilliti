@@ -7,8 +7,8 @@ import org.springframework.web.reactive.function.client.WebClient.RequestBodySpe
 import org.springframework.web.reactive.function.client.WebClient.UriSpec;
 
 import it.perigea.entities.Timespan;
+import it.perigea.serverResponse.AggregatesResponse;
 import reactor.core.publisher.Mono;
-import serverResponse.AggregatesResponse;
 
 @Component
 public class ApiWebClient {

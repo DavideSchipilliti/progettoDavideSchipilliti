@@ -1,4 +1,4 @@
-package serverResponse;
+package it.perigea.serverResponse;
 
 public class AggregatesResult {
 

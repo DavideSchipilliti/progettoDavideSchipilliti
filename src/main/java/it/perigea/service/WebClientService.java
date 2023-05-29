@@ -5,9 +5,9 @@ import org.springframework.stereotype.Service;
 
 import it.perigea.entities.Run;
 import it.perigea.entities.Timespan;
+import it.perigea.serverResponse.AggregatesResponse;
 import it.perigea.webclient.ApiWebClient;
 import reactor.core.publisher.Mono;
-import serverResponse.AggregatesResponse;
 
 @Service
 public class WebClientService {
