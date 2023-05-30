@@ -22,6 +22,11 @@ public class RunService {
 	public List<Run> viewAllRunBySchedule(Schedule schedule){
 		return repository.findAllByJob(schedule);
 	}
+
+	public Run setRun(Run run) {
+		repository.save(run);
+		return run;
+	}
 	
 	
 }

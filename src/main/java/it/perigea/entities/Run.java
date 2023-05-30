@@ -1,5 +1,7 @@
 package it.perigea.entities;
 
+import java.sql.Timestamp;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -13,9 +15,9 @@ public class Run {
 	@Id
 	private String id;
 	@Column (nullable=false)
-	private Integer started;
+	private Timestamp started;
 	@Column (nullable=false)
-	private Integer finished;
+	private Timestamp finished;
 	@Column (nullable=false)
 	private String status;
 	@ManyToOne (cascade = CascadeType.ALL)
@@ -29,16 +31,16 @@ public class Run {
 	public void setId(String id) {
 		this.id = id;
 	}
-	public Integer getStarted() {
+	public Timestamp getStarted() {
 		return started;
 	}
-	public void setStarted(Integer started) {
+	public void setStarted(Timestamp started) {
 		this.started = started;
 	}
-	public Integer getFinished() {
+	public Timestamp getFinished() {
 		return finished;
 	}
-	public void setFinished(Integer finished) {
+	public void setFinished(Timestamp finished) {
 		this.finished = finished;
 	}
 	public String getStatus() {
