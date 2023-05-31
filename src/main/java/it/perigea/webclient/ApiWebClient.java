@@ -4,12 +4,15 @@ import java.sql.Timestamp;
 import java.util.Optional;
 
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClient.RequestBodySpec;
 import org.springframework.web.reactive.function.client.WebClient.UriSpec;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
 
+import it.perigea.customException.CustomClientErrorException;
+import it.perigea.customException.CustomServerErrorException;
 import it.perigea.entities.Timespan;
 import it.perigea.serverResponse.AggregatesResponse;
 import it.perigea.serverResponse.GroupedDailyResponse;
@@ -38,14 +41,22 @@ public class ApiWebClient {
                     log(LogLevel.ERROR, "Client error while retrieving token from API: " + clientResponse.statusCode().getReasonPhrase(), null);
                     return Mono.empty();
                     })
-				.onStatus(HttpStatus::is5xxServerError, clientResponse -> {
-					throw new ServerException("Server error while retrieving tocken from API: " + clientResponse.statusCode().getReasonPhrase() );
-				})
+				.onStatus( 
+					    HttpStatus.INTERNAL_SERVER_ERROR::equals,
+					    resp -> resp.bodyToMono(String.class).map((strinResp) -> new CustomServerErrorException(strinResp)))
+				
+				.onStatus(
+					    HttpStatus.BAD_REQUEST::equals,
+					    resp -> resp.bodyToMono(String.class).map(CustomClientErrorException::new))
 				*/
+				.onStatus(
+					    HttpStatus::is4xxClientError,
+					    clientResponse -> Mono.error(new CustomClientErrorException(clientResponse.statusCode().getReasonPhrase())) )
+				.onStatus(
+					    HttpStatus::is5xxServerError,
+					    clientResponse -> Mono.error(new CustomServerErrorException(clientResponse.statusCode().getReasonPhrase())) )
 				.bodyToMono(AggregatesResponse.class)
 				.onErrorResume(WebClientResponseException.class, ex -> ex.getRawStatusCode() == 404 ? Mono.empty() : Mono.error(ex));
-		//così prendo solo il body, altrimenti Mono<ResponseEntity<AggregatesResponse>>
-		//aggiungere .onStatus()
 		
 		return response.blockOptional();		//blocca la chiamata al primo result e restituisce l'oggetto
 	}
