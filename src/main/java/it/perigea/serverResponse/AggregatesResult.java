@@ -1,14 +1,24 @@
 package it.perigea.serverResponse;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class AggregatesResult {
 
+	@JsonProperty("v")
 	private long tradingVolume;			//numero di unità scambiate
+	@JsonProperty("vw")
 	private float vwap;					//Volume-Weighted Average Price (prezzo medio ponderato per il volume)
+	@JsonProperty("o")
 	private float openPrice;
+	@JsonProperty("c")
 	private float closePrice;
+	@JsonProperty("h")
 	private float highestPrice;
+	@JsonProperty("l")
 	private float lowestPrice;
+	@JsonProperty("t")
 	private int startTimestamp;
+	@JsonProperty("n")
 	private int numberOfTransaction;
 	
 	

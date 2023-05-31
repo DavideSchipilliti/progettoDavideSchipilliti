@@ -3,6 +3,8 @@ package it.perigea.serverResponse;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class PreviousCloseResponse {			//rispetto a GroupedDailyResponse ha ticker mentre aggregates contiene nexturl
 
 	private String ticker;
@@ -11,6 +13,7 @@ public class PreviousCloseResponse {			//rispetto a GroupedDailyResponse ha tick
 	private boolean adjusted;
 	private List<PreviousCloseResult> results;
 	private String status;
+	@JsonProperty("request_id")
 	private String requestId;
 	private int count;
 	

@@ -3,6 +3,8 @@ package it.perigea.serverResponse;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class AggregatesResponse {
 	
 	private String ticker;
@@ -11,6 +13,7 @@ public class AggregatesResponse {
 	private boolean adjusted;
 	private List<AggregatesResult> results;
 	private String status;
+	@JsonProperty("request_id")
 	private String requestId;
 	private int count;
 	private String next_url;

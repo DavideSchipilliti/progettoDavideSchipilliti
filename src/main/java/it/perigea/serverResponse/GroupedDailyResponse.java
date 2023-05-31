@@ -3,19 +3,25 @@ package it.perigea.serverResponse;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class GroupedDailyResponse {
+	
 	private int queryCount;
 	private int resultsCount;
 	private boolean adjusted;
 	private List<GroupedDailyResult> results;
 	private String status;
+	@JsonProperty("request_id")
 	private String requestId;
 	private int count;
+	
 	
 	public GroupedDailyResponse() {
 		super();
 		results=new ArrayList<>();
 	}
+	
 	
 	//Getters and Setters
 	public int getQueryCount() {
