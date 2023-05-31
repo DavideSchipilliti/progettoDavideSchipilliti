@@ -24,6 +24,18 @@ public class Run {
 	@JoinColumn (name = "JOB_ID", nullable=false)
 	private Schedule job;
 	
+	public Run() {
+		super();
+	}
+	
+	public Run(String id, Timestamp started, Timestamp finished, String status, Schedule job) {
+		this.id=id;
+		this.started=started;
+		this.finished=finished;
+		this.status=status;
+		this.job=job;
+	}
+	
 	//Getter and Setter
 	public String getId() {
 		return id;
