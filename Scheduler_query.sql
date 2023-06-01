@@ -1,9 +1,8 @@
-
 CREATE TABLE schedule (
 	job serial PRIMARY KEY,
-	creation integer NOT NULL,
-	start integer NOT NULL,
-	stop integer,
+	creation TIMESTAMP NOT NULL,
+	start TIMESTAMP NOT NULL,
+	stop TIMESTAMP,
 	timespan varchar(15),
 	multiplier integer,
 	forex_ticker char(8)
@@ -11,17 +10,22 @@ CREATE TABLE schedule (
 
 CREATE TABLE run (
 	id varchar(50) PRIMARY KEY,
-	started integer NOT NULL,
-	finished integer NOT NULL,
+	started TIMESTAMP NOT NULL,
+	finished TIMESTAMP NOT NULL,
 	status varchar NOT NULL,
 	job_id integer NOT NULL REFERENCES schedule(job)
 );
 
-ALTER TABLE schedule
-ADD COLUMN creation integer NOT NULL;
 
 select * from schedule;
 select * from run;
 
-insert into schedule (creation, start, forex_ticker)
-values (01, 01, 'c:EURUSD')
+INSERT INTO run (id, started, finished, status, job_id)
+VALUES ('run01', '2023-06-01 17:30:10', '2023-06-01 17:30:15', 'ok', 1),
+       ('run02', '2023-06-01 17:31:10', '2023-06-01 17:31:15', 'ok', 1),
+       ('run03', '2023-06-01 17:32:10', '2023-06-01 17:32:15', 'ok', 1),
+       ('run04', '2023-06-01 17:33:10', '2023-06-01 17:33:15', 'ok', 1),
+       ('run05', '2023-06-01 17:34:10', '2023-06-01 17:34:15', 'ok', 1);
+	   
+INSERT INTO schedule (creation, start, stop, timespan, multiplier, forex_ticker)
+VALUES ('2023-06-01 18:00:00', '2023-06-01 18:30:00', '2023-06-01 19:30:00', 'minute', 10, 'C:EURUSD');   

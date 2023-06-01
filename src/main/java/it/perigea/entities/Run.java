@@ -1,5 +1,6 @@
 package it.perigea.entities;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 
 import javax.persistence.CascadeType;
@@ -9,8 +10,13 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
+@SuppressWarnings("serial")
 @Entity
-public class Run {
+public class Run implements Serializable{
 
 	@Id
 	private String id;
@@ -22,6 +28,8 @@ public class Run {
 	private String status;
 	@ManyToOne (cascade = CascadeType.ALL)
 	@JoinColumn (name = "JOB_ID", nullable=false)
+	@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+    @JsonIdentityReference(alwaysAsId = true)
 	private Schedule job;
 	
 	public Run() {
@@ -67,5 +75,4 @@ public class Run {
 	public void setJob(Schedule job) {
 		this.job = job;
 	}
-	
 }

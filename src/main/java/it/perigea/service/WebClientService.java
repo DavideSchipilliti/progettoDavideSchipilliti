@@ -27,8 +27,8 @@ public class WebClientService {
 	@Autowired
 	private RunService runService;
 	
-	@Scheduled
-	public void getAggregates(Schedule job, String forexTicker, int multiplier, Timespan timespan, int from, int to) {
+	//@Scheduled
+	public AggregatesResponse getAggregates(Schedule job, String forexTicker, int multiplier, Timespan timespan, int from, int to) {
 
 		Timestamp started=new Timestamp(System.currentTimeMillis());
 		
@@ -44,11 +44,11 @@ public class WebClientService {
 		runService.setRun(run);
 		
 		//Inviare result al kafkaService
-		
+		return response;
 	}
 	
-	@Scheduled
-	public void getGroupedDaily(Schedule job, Timestamp date) {
+	//@Scheduled
+	public GroupedDailyResponse getGroupedDaily(Schedule job, Timestamp date) {
 		
 		Timestamp started=new Timestamp(System.currentTimeMillis());
 		
@@ -64,11 +64,11 @@ public class WebClientService {
 		runService.setRun(run);
 		
 		//Inviare result al kafkaService
-		
+		return response;
 	}
 	
-	@Scheduled
-	public void getPreviousClose(Schedule job, String forexTicker) {
+	//@Scheduled
+	public PreviousCloseResponse getPreviousClose(Schedule job, String forexTicker) {
 		
 		Timestamp started=new Timestamp(System.currentTimeMillis());
 		
@@ -84,6 +84,6 @@ public class WebClientService {
 		runService.setRun(run);
 		
 		//Inviare result al kafkaService
-		
+		return response;
 	}
 }
