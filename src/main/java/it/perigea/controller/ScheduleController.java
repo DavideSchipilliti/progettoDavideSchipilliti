@@ -1,5 +1,6 @@
 package it.perigea.controller;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 import javax.persistence.EntityNotFoundException;
@@ -47,6 +48,7 @@ public class ScheduleController {
 	
 	@PutMapping("/setSchedule")
 	public ResponseEntity<Schedule> setSchedule (@RequestBody Schedule scheduleToSave){
+		scheduleToSave.setCreation(new Timestamp(System.currentTimeMillis() ));
 		Schedule scheduleSaved = service.setSchedule(scheduleToSave);
 		return new ResponseEntity<Schedule> (scheduleSaved, HttpStatus.OK);
 	}

@@ -19,14 +19,16 @@ import it.perigea.serverResponse.GroupedDailyResponse;
 import it.perigea.serverResponse.PreviousCloseResponse;
 import reactor.core.publisher.Mono;
 
+// Questa classe si occupa di fare la chiamata alle API del Server.
+
 @Component
 public class ApiWebClient {
 	
-	private final String MY_SECRET_TOCKET="TOrI8vcJ03RhtmdLbA2Ah25TE3ph0tb4";
+	private final String MY_SECRET_TOCKEN="TOrI8vcJ03RhtmdLbA2Ah25TE3ph0tb4";
 
 	private WebClient client = WebClient.builder()
 			  .baseUrl("https://api.polygon.io")
-			  .defaultHeader("Authorization:", "Bearer " + MY_SECRET_TOCKET)
+			  .defaultHeader("Authorization:", "Bearer " + MY_SECRET_TOCKEN)
 			  .build();
 	
 	//Ottieni le informazioni per una coppia di valuta in un dato intervallo di tempo e con una data frequenza. 

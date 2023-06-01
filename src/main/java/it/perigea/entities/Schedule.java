@@ -1,5 +1,6 @@
 package it.perigea.entities;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,11 +19,11 @@ public class Schedule {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long job;
 	@Column(nullable = false)
-	private Integer creation;
+	private Timestamp creation;
 	@Column(nullable = false)
-	private Integer start;
+	private Timestamp start;
 	@Column
-	private Integer stop;
+	private Timestamp stop;
 	@Column
 	private Timespan timespan;
 	@Column
@@ -45,16 +46,16 @@ public class Schedule {
 	public void setJob(Long job) {
 		this.job = job;
 	}
-	public Integer getStart() {
+	public Timestamp getStart() {
 		return start;
 	}
-	public void setStart(Integer start) {
+	public void setStart(Timestamp start) {
 		this.start = start;
 	}
-	public Integer getStop() {
+	public Timestamp getStop() {
 		return stop;
 	}
-	public void setStop(Integer stop) {
+	public void setStop(Timestamp stop) {
 		this.stop = stop;
 	}
 	public Timespan getTimespan() {
@@ -81,5 +82,10 @@ public class Schedule {
 	public void setExecuted(List<Run> executed) {
 		this.executed = executed;
 	}
-	
+	public Timestamp getCreation() {
+		return creation;
+	}
+	public void setCreation(Timestamp creation) {
+		this.creation = creation;
+	}
 }

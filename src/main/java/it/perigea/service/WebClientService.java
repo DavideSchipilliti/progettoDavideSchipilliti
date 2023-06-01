@@ -16,6 +16,8 @@ import it.perigea.serverResponse.GroupedDailyResponse;
 import it.perigea.serverResponse.PreviousCloseResponse;
 import it.perigea.webclient.ApiWebClient;
 
+//Questa classe si occupa di fare la chiamata a ApiWebClient, ricevere la risposta e con essa salvare il job sul DB e inviare i dati al KafkaService.
+
 @Service
 public class WebClientService {
 
