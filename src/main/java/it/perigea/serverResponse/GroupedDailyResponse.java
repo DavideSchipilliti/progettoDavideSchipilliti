@@ -7,14 +7,14 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class GroupedDailyResponse {
 	
-	private int queryCount;
-	private int resultsCount;
+	private Integer queryCount;
+	private Integer resultsCount;
 	private boolean adjusted;
 	private List<GroupedDailyResult> results;
 	private String status;
 	@JsonProperty("request_id")
 	private String requestId;
-	private int count;
+	private Integer count;
 	
 	
 	public GroupedDailyResponse() {
@@ -24,16 +24,16 @@ public class GroupedDailyResponse {
 	
 	
 	//Getters and Setters
-	public int getQueryCount() {
+	public Integer getQueryCount() {
 		return queryCount;
 	}
-	public void setQueryCount(int queryCount) {
+	public void setQueryCount(Integer queryCount) {
 		this.queryCount = queryCount;
 	}
-	public int getResultsCount() {
+	public Integer getResultsCount() {
 		return resultsCount;
 	}
-	public void setResultsCount(int resultsCount) {
+	public void setResultsCount(Integer resultsCount) {
 		this.resultsCount = resultsCount;
 	}
 	public boolean isAdjusted() {
@@ -60,10 +60,10 @@ public class GroupedDailyResponse {
 	public void setRequestId(String requestId) {
 		this.requestId = requestId;
 	}
-	public int getCount() {
+	public Integer getCount() {
 		return count;
 	}
-	public void setCount(int count) {
+	public void setCount(Integer count) {
 		this.count = count;
 	}
 }

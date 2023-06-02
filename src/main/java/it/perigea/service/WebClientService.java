@@ -5,7 +5,6 @@ import java.sql.Timestamp;
 import javax.persistence.EntityNotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import it.perigea.entities.Run;
@@ -28,7 +27,7 @@ public class WebClientService {
 	private RunService runService;
 	
 	//@Scheduled
-	public AggregatesResponse getAggregates(Schedule job, String forexTicker, int multiplier, Timespan timespan, int from, int to) {
+	public AggregatesResponse getAggregates(Schedule job, String forexTicker, int multiplier, Timespan timespan, Timestamp from, Timestamp to) {
 
 		Timestamp started=new Timestamp(System.currentTimeMillis());
 		
@@ -48,7 +47,7 @@ public class WebClientService {
 	}
 	
 	//@Scheduled
-	public GroupedDailyResponse getGroupedDaily(Schedule job, Timestamp date) {
+	public GroupedDailyResponse getGroupedDaily(Schedule job, String date) {
 		
 		Timestamp started=new Timestamp(System.currentTimeMillis());
 		

@@ -28,47 +28,43 @@ public class ApiWebClient {
 
 	private WebClient client = WebClient.builder()
 			  .baseUrl("https://api.polygon.io")
-			  .defaultHeader("Authorization:", "Bearer " + MY_SECRET_TOCKEN)
+			  .defaultHeader("Authorization", "Bearer " + MY_SECRET_TOCKEN)
 			  .build();
 	
 	//Ottieni le informazioni per una coppia di valuta in un dato intervallo di tempo e con una data frequenza. 
-	public Optional<AggregatesResponse> aggregates(String forexTicker, int multiplier, Timespan timespan, int from, int to) {
+	public Optional<AggregatesResponse> aggregates(String forexTicker, int multiplier, Timespan timespan, Timestamp from, Timestamp to) {
 		
 		UriSpec<RequestBodySpec> uriSpec = client.method(HttpMethod.GET);
-		RequestBodySpec bodySpec = uriSpec.uri("/v2/aggs/ticker/{forexTicker}/range/{multiplier}/{timespan}/{from}/{to}", forexTicker, multiplier, timespan, from, to);
+		RequestBodySpec bodySpec = uriSpec.uri("/v2/aggs/ticker/{forexTicker}/range/{multiplier}/{timespan}/{from}/{to}",
+				forexTicker, multiplier, timespan, from.getTime(), to.getTime());
 		Mono<AggregatesResponse> response = bodySpec.retrieve()
 				/*
 				.onStatus(HttpStatus::is4xxClientError, clientResponse -> {
                     log.error("Client error while retrieving token from API: " + clientResponse.statusCode().getReasonPhrase());
                     log(LogLevel.ERROR, "Client error while retrieving token from API: " + clientResponse.statusCode().getReasonPhrase(), null);
                     return Mono.empty();
-                    })
-				.onStatus( 
-					    HttpStatus.INTERNAL_SERVER_ERROR::equals,
-					    resp -> resp.bodyToMono(String.class).map((strinResp) -> new CustomServerErrorException(strinResp)))
-				
-				.onStatus(
-					    HttpStatus.BAD_REQUEST::equals,
-					    resp -> resp.bodyToMono(String.class).map(CustomClientErrorException::new))
-				*/
-				.onStatus(
-					    HttpStatus::is4xxClientError,
-					    clientResponse -> Mono.error(new CustomClientErrorException(clientResponse.statusCode().getReasonPhrase())) )
-				.onStatus(
-					    HttpStatus::is5xxServerError,
-					    clientResponse -> Mono.error(new CustomServerErrorException(clientResponse.statusCode().getReasonPhrase())) )
+                    }) */
+				.onStatus(HttpStatus::is4xxClientError, clientResponse ->
+					Mono.error(new CustomClientErrorException("Client Error with reason: " + clientResponse.statusCode().getReasonPhrase())) )
+				.onStatus(HttpStatus::is5xxServerError,clientResponse ->
+					Mono.error(new CustomServerErrorException("Server Error with reason: " + clientResponse.statusCode().getReasonPhrase())) )
 				.bodyToMono(AggregatesResponse.class)
 				.onErrorResume(WebClientResponseException.class, ex -> ex.getRawStatusCode() == 404 ? Mono.empty() : Mono.error(ex));
 		
-		return response.blockOptional();		//blocca la chiamata al primo result e restituisce l'oggetto
+		return response.blockOptional();		//blocca il flusso al primo result e restituisce l'oggetto
 	}
 	
 	//Ottieni i valori di tutte le coppie di valute in un dato giorno.
-	public Optional<GroupedDailyResponse> groupedDaily(Timestamp date){
+	public Optional<GroupedDailyResponse> groupedDaily(String date){
 		
 		UriSpec<RequestBodySpec> uriSpec = client.method(HttpMethod.GET);
 		RequestBodySpec bodySpec = uriSpec.uri("/v2/aggs/grouped/locale/global/market/fx/{date}", date);
-		Mono<GroupedDailyResponse> response = bodySpec.retrieve().bodyToMono(GroupedDailyResponse.class);
+		Mono<GroupedDailyResponse> response = bodySpec.retrieve()
+			.onStatus(HttpStatus::is4xxClientError, clientResponse ->
+				Mono.error(new CustomClientErrorException("Client Error with reason: " + clientResponse.statusCode().getReasonPhrase())) )
+			.onStatus(HttpStatus::is5xxServerError,clientResponse ->
+				Mono.error(new CustomServerErrorException("Server Error with reason: " + clientResponse.statusCode().getReasonPhrase())) )
+			.bodyToMono(GroupedDailyResponse.class);
 		
 		return response.blockOptional();
 	}
@@ -78,7 +74,12 @@ public class ApiWebClient {
 		
 		UriSpec<RequestBodySpec> uriSpec = client.method(HttpMethod.GET);
 		RequestBodySpec bodySpec = uriSpec.uri("/v2/aggs/ticker/{forexTicker}/prev", forexTicker);
-		Mono<PreviousCloseResponse> response = bodySpec.retrieve().bodyToMono(PreviousCloseResponse.class);
+		Mono<PreviousCloseResponse> response = bodySpec.retrieve()
+			.onStatus(HttpStatus::is4xxClientError, clientResponse ->
+				Mono.error(new CustomClientErrorException("Client Error with reason: " + clientResponse.statusCode().getReasonPhrase())) )
+			.onStatus(HttpStatus::is5xxServerError,clientResponse ->
+				Mono.error(new CustomServerErrorException("Server Error with reason: " + clientResponse.statusCode().getReasonPhrase())) )
+			.bodyToMono(PreviousCloseResponse.class);
 		
 		return response.blockOptional();
 	}

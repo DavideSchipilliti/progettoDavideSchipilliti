@@ -8,14 +8,14 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class AggregatesResponse {
 	
 	private String ticker;
-	private int queryCount;
-	private int resultsCount;
+	private Integer queryCount;
+	private Integer resultsCount;
 	private boolean adjusted;
 	private List<AggregatesResult> results;
 	private String status;
 	@JsonProperty("request_id")
 	private String requestId;
-	private int count;
+	private Integer count;
 	private String next_url;
 	
 	
@@ -31,10 +31,10 @@ public class AggregatesResponse {
 	public void setAdjusted(boolean adjusted) {
 		this.adjusted = adjusted;
 	}
-	public int getQueryCount() {
+	public Integer getQueryCount() {
 		return queryCount;
 	}
-	public void setQueryCount(int queryCount) {
+	public void setQueryCount(Integer queryCount) {
 		this.queryCount = queryCount;
 	}
 	public String getRequestId() {
@@ -52,7 +52,7 @@ public class AggregatesResponse {
 	public int getResultsCount() {
 		return resultsCount;
 	}
-	public void setResultsCount(int resultsCount) {
+	public void setResultsCount(Integer resultsCount) {
 		this.resultsCount = resultsCount;
 	}
 	public String getStatus() {
@@ -67,10 +67,10 @@ public class AggregatesResponse {
 	public void setTicker(String ticker) {
 		this.ticker = ticker;
 	}
-	public int getCount() {
+	public Integer getCount() {
 		return count;
 	}
-	public void setCount(int count) {
+	public void setCount(Integer count) {
 		this.count = count;
 	}
 	public String getNext_url() {

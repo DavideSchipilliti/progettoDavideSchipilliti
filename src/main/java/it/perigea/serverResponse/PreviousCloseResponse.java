@@ -8,14 +8,14 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class PreviousCloseResponse {			//rispetto a GroupedDailyResponse ha ticker mentre aggregates contiene nexturl
 
 	private String ticker;
-	private int queryCount;
-	private int resultsCount;
+	private Integer queryCount;
+	private Integer resultsCount;
 	private boolean adjusted;
 	private List<PreviousCloseResult> results;
 	private String status;
 	@JsonProperty("request_id")
 	private String requestId;
-	private int count;
+	private Integer count;
 	
 	
 	public PreviousCloseResponse() {
@@ -31,16 +31,16 @@ public class PreviousCloseResponse {			//rispetto a GroupedDailyResponse ha tick
 	public void setTicker(String ticker) {
 		this.ticker = ticker;
 	}
-	public int getQueryCount() {
+	public Integer getQueryCount() {
 		return queryCount;
 	}
-	public void setQueryCount(int queryCount) {
+	public void setQueryCount(Integer queryCount) {
 		this.queryCount = queryCount;
 	}
-	public int getResultsCount() {
+	public Integer getResultsCount() {
 		return resultsCount;
 	}
-	public void setResultsCount(int resultsCount) {
+	public void setResultsCount(Integer resultsCount) {
 		this.resultsCount = resultsCount;
 	}
 	public boolean isAdjusted() {
@@ -67,10 +67,10 @@ public class PreviousCloseResponse {			//rispetto a GroupedDailyResponse ha tick
 	public void setRequestId(String requestId) {
 		this.requestId = requestId;
 	}
-	public int getCount() {
+	public Integer getCount() {
 		return count;
 	}
-	public void setCount(int count) {
+	public void setCount(Integer count) {
 		this.count = count;
 	}
 }

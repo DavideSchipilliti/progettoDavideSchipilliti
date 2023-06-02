@@ -7,23 +7,23 @@ public class PreviousCloseResult {		//uguale a GroupedDailyResult
 	@JsonProperty("T")
 	private String ticker;
 	@JsonProperty("v")
-	private long tradingVolume;			//numero di unità scambiate
+	private Long tradingVolume;			//numero di unità scambiate
 	@JsonProperty("vw")
-	private float vwap;					//Volume-Weighted Average Price (prezzo medio ponderato per il volume)
+	private Float vwap;					//Volume-Weighted Average Price (prezzo medio ponderato per il volume)
 	@JsonProperty("o")
-	private float openPrice;
+	private Float openPrice;
 	@JsonProperty("c")
-	private float closePrice;
+	private Float closePrice;
 	@JsonProperty("h")
-	private float highestPrice;
+	private Float highestPrice;
 	@JsonProperty("l")
-	private float lowestPrice;
+	private Float lowestPrice;
 	@JsonProperty("t")
-	private int startTimestamp;
+	private Long startTimestamp;
 	@JsonProperty("n")
-	private int numberOfTransaction;
+	private Integer numberOfTransaction;
 	
-	
+
 	//Getters and Setters
 	public String getTicker() {
 		return ticker;
@@ -31,52 +31,52 @@ public class PreviousCloseResult {		//uguale a GroupedDailyResult
 	public void setTicker(String ticker) {
 		this.ticker = ticker;
 	}
-	public long getTradingVolume() {
+	public Long getTradingVolume() {
 		return tradingVolume;
 	}
-	public void setTradingVolume(long tradingVolume) {
+	public void setTradingVolume(Long tradingVolume) {
 		this.tradingVolume = tradingVolume;
 	}
-	public float getVwap() {
+	public Float getVwap() {
 		return vwap;
 	}
-	public void setVwap(float vwap) {
+	public void setVwap(Float vwap) {
 		this.vwap = vwap;
 	}
-	public float getOpenPrice() {
+	public Float getOpenPrice() {
 		return openPrice;
 	}
-	public void setOpenPrice(float openPrice) {
+	public void setOpenPrice(Float openPrice) {
 		this.openPrice = openPrice;
 	}
-	public float getClosePrice() {
+	public Float getClosePrice() {
 		return closePrice;
 	}
-	public void setClosePrice(float closePrice) {
+	public void setClosePrice(Float closePrice) {
 		this.closePrice = closePrice;
 	}
-	public float getHighestPrice() {
+	public Float getHighestPrice() {
 		return highestPrice;
 	}
-	public void setHighestPrice(float highestPrice) {
+	public void setHighestPrice(Float highestPrice) {
 		this.highestPrice = highestPrice;
 	}
-	public float getLowestPrice() {
+	public Float getLowestPrice() {
 		return lowestPrice;
 	}
-	public void setLowestPrice(float lowestPrice) {
+	public void setLowestPrice(Float lowestPrice) {
 		this.lowestPrice = lowestPrice;
 	}
-	public int getStartTimestamp() {
+	public Long getStartTimestamp() {
 		return startTimestamp;
 	}
-	public void setStartTimestamp(int startTimestamp) {
+	public void setStartTimestamp(Long startTimestamp) {
 		this.startTimestamp = startTimestamp;
 	}
-	public int getNumberOfTransaction() {
+	public Integer getNumberOfTransaction() {
 		return numberOfTransaction;
 	}
-	public void setNumberOfTransaction(int numberOfTransaction) {
+	public void setNumberOfTransaction(Integer numberOfTransaction) {
 		this.numberOfTransaction = numberOfTransaction;
 	}
 }

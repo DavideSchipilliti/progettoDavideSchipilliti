@@ -5,71 +5,70 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class AggregatesResult {
 
 	@JsonProperty("v")
-	private long tradingVolume;			//numero di unità scambiate
+	private Long tradingVolume;			//numero di unità scambiate
 	@JsonProperty("vw")
-	private float vwap;					//Volume-Weighted Average Price (prezzo medio ponderato per il volume)
+	private Float vwap;					//Volume-Weighted Average Price (prezzo medio ponderato per il volume)
 	@JsonProperty("o")
-	private float openPrice;
+	private Float openPrice;
 	@JsonProperty("c")
-	private float closePrice;
+	private Float closePrice;
 	@JsonProperty("h")
-	private float highestPrice;
+	private Float highestPrice;
 	@JsonProperty("l")
-	private float lowestPrice;
+	private Float lowestPrice;
 	@JsonProperty("t")
-	private int startTimestamp;
+	private Long startTimestamp;
 	@JsonProperty("n")
-	private int numberOfTransaction;
+	private Integer numberOfTransaction;
 	
 	
 	//Getters and Setters
-	public float getClosePrice() {
-		return closePrice;
-	}
-	public void setClosePrice(float closePrice) {
-		this.closePrice = closePrice;
-	}
-	public float getHighestPrice() {
-		return highestPrice;
-	}
-	public void setHighestPrice(float highestPrice) {
-		this.highestPrice = highestPrice;
-	}
-	public float getLowestPrice() {
-		return lowestPrice;
-	}
-	public void setLowestPrice(float lowestPrice) {
-		this.lowestPrice = lowestPrice;
-	}
-	public int getNumberOfTransaction() {
-		return numberOfTransaction;
-	}
-	public void setNumberOfTransaction(int numberOfTransaction) {
-		this.numberOfTransaction = numberOfTransaction;
-	}
-	public float getOpenPrice() {
-		return openPrice;
-	}
-	public void setOpenPrice(float openPrice) {
-		this.openPrice = openPrice;
-	}
-	public int getStartTimestamp() {
-		return startTimestamp;
-	}
-	public void setStartTimestamp(int startTimestamp) {
-		this.startTimestamp = startTimestamp;
-	}
-	public long getTradingVolume() {
+	public Long getTradingVolume() {
 		return tradingVolume;
 	}
-	public void setTradingVolume(long tradingVolume) {
+	public void setTradingVolume(Long tradingVolume) {
 		this.tradingVolume = tradingVolume;
 	}
-	public float getVwap() {
+	public Float getVwap() {
 		return vwap;
 	}
-	public void setVwap(float vwap) {
+	public void setVwap(Float vwap) {
 		this.vwap = vwap;
 	}
-	
+	public Float getOpenPrice() {
+		return openPrice;
+	}
+	public void setOpenPrice(Float openPrice) {
+		this.openPrice = openPrice;
+	}
+	public Float getClosePrice() {
+		return closePrice;
+	}
+	public void setClosePrice(Float closePrice) {
+		this.closePrice = closePrice;
+	}
+	public Float getHighestPrice() {
+		return highestPrice;
+	}
+	public void setHighestPrice(Float highestPrice) {
+		this.highestPrice = highestPrice;
+	}
+	public Float getLowestPrice() {
+		return lowestPrice;
+	}
+	public void setLowestPrice(Float lowestPrice) {
+		this.lowestPrice = lowestPrice;
+	}
+	public Long getStartTimestamp() {
+		return startTimestamp;
+	}
+	public void setStartTimestamp(Long startTimestamp) {
+		this.startTimestamp = startTimestamp;
+	}
+	public Integer getNumberOfTransaction() {
+		return numberOfTransaction;
+	}
+	public void setNumberOfTransaction(Integer numberOfTransaction) {
+		this.numberOfTransaction = numberOfTransaction;
+	}
 }
