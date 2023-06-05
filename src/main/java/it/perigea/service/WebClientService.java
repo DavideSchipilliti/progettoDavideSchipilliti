@@ -26,6 +26,9 @@ public class WebClientService {
 	@Autowired
 	private RunService runService;
 	
+	@Autowired
+	private KafkaProducerService kafkaProducerService;
+	
 	//@Scheduled
 	public AggregatesResponse getAggregates(Schedule job, String forexTicker, int multiplier, Timespan timespan, Timestamp from, Timestamp to) {
 
@@ -42,7 +45,9 @@ public class WebClientService {
 		Run run = new Run(id, started, finished, status, job);
 		runService.setRun(run);
 		
-		//Inviare result al kafkaService
+		//Invio result al kafkaService
+		kafkaProducerService.sendMessage("AggregatesResponse", response);
+		
 		return response;
 	}
 	
@@ -62,7 +67,9 @@ public class WebClientService {
 		Run run = new Run(id, started, finished, status, job);
 		runService.setRun(run);
 		
-		//Inviare result al kafkaService
+		//Invio result al kafkaService
+		kafkaProducerService.sendMessage("GroupedDailyResponse", response);
+		
 		return response;
 	}
 	
@@ -83,6 +90,8 @@ public class WebClientService {
 		runService.setRun(run);
 		
 		//Inviare result al kafkaService
+		kafkaProducerService.sendMessage("PreviousCloseResponse", response);
+		
 		return response;
 	}
 }

@@ -1,9 +1,13 @@
 package it.perigea.serverResponse;
 
+import java.io.Serializable;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class AggregatesResult {
+public class AggregatesResult implements Serializable{
 
+	private static final long serialVersionUID = 2658937015177695664L;
+	
 	@JsonProperty("v")
 	private Long tradingVolume;			//numero di unità scambiate
 	@JsonProperty("vw")
