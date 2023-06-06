@@ -19,7 +19,7 @@ import it.perigea.service.RunService;
 public class RunController {
 
 	@Autowired
-	RunService service;
+	private RunService service;
 	
 	@GetMapping("/getAllRun")
 	public ResponseEntity<List<Run>> getAllRun(){

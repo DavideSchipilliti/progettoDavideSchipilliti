@@ -1,11 +1,14 @@
 package it.perigea.serverResponse;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class PreviousCloseResponse {			//rispetto a GroupedDailyResponse ha ticker mentre aggregates contiene nexturl
+public class PreviousCloseResponse implements Serializable{ 	//rispetto a GroupedDailyResponse ha ticker mentre aggregates contiene nexturl
+	
+	private static final long serialVersionUID = 6448190697736678887L;
 
 	private String ticker;
 	private Integer queryCount;

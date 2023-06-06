@@ -1,8 +1,12 @@
 package it.perigea.serverResponse;
 
+import java.io.Serializable;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class PreviousCloseResult {		//uguale a GroupedDailyResult
+public class PreviousCloseResult implements Serializable{		//uguale a GroupedDailyResult
+	
+	private static final long serialVersionUID = 1117530538960251064L;
 	
 	@JsonProperty("T")
 	private String ticker;

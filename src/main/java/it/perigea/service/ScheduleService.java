@@ -14,7 +14,7 @@ import it.perigea.repository.ScheduleRepository;
 public class ScheduleService {
 	
 	@Autowired
-	ScheduleRepository repository;
+	private ScheduleRepository repository;
 	
 	public List<Schedule> viewAllSchedule(){
 		return repository.findAll();

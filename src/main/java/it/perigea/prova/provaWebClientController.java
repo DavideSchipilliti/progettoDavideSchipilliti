@@ -24,10 +24,10 @@ import it.perigea.service.WebClientService;
 public class provaWebClientController {
 	
 	@Autowired
-	WebClientService webClientService;
+	private WebClientService webClientService;
 	
 	@Autowired
-	ScheduleRepository scheduleRepository;
+	private ScheduleRepository scheduleRepository;
 	
 	@GetMapping("/getAggregates/{forexTicker}/{multiplier}/{timespan}/{from}/{to}")		//from e to vanno bene sia come Timestamp (al millisecondo) sia come data del tipo YYYY-MM-DD
 	public ResponseEntity<AggregatesResponse> testGetAggregates(@PathVariable String forexTicker, @PathVariable int multiplier, @PathVariable Timespan timespan, @PathVariable Timestamp from, @PathVariable Timestamp to) {

@@ -40,7 +40,7 @@ public class Schedule implements Serializable{
 	@Column(name = "forex_ticker")
 	private String forexTicker;
 	@OneToMany (mappedBy = "job", cascade = CascadeType.ALL)
-	List<Run> executed;
+	private List<Run> executed;
 	
 	public Schedule() {
 		super();

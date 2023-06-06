@@ -1,11 +1,14 @@
 package it.perigea.serverResponse;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class GroupedDailyResponse {
+public class GroupedDailyResponse implements Serializable{
+	
+	private static final long serialVersionUID = -1274405829653402130L;
 	
 	private Integer queryCount;
 	private Integer resultsCount;

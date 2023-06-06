@@ -24,7 +24,7 @@ import it.perigea.service.ScheduleService;
 public class ScheduleController {
 	
 	@Autowired
-	ScheduleService service;
+	private ScheduleService service;
 	
 	@GetMapping("/getAllSchedule")
 	public ResponseEntity<List<Schedule>> getAllSchedule(){

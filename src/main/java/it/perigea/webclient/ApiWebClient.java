@@ -38,12 +38,6 @@ public class ApiWebClient {
 		RequestBodySpec bodySpec = uriSpec.uri("/v2/aggs/ticker/{forexTicker}/range/{multiplier}/{timespan}/{from}/{to}",
 				forexTicker, multiplier, timespan, from.getTime(), to.getTime());
 		Mono<AggregatesResponse> response = bodySpec.retrieve()
-				/*
-				.onStatus(HttpStatus::is4xxClientError, clientResponse -> {
-                    log.error("Client error while retrieving token from API: " + clientResponse.statusCode().getReasonPhrase());
-                    log(LogLevel.ERROR, "Client error while retrieving token from API: " + clientResponse.statusCode().getReasonPhrase(), null);
-                    return Mono.empty();
-                    }) */
 				.onStatus(HttpStatus::is4xxClientError, clientResponse ->
 					Mono.error(new CustomClientErrorException("Client Error with reason: " + clientResponse.statusCode().getReasonPhrase())) )
 				.onStatus(HttpStatus::is5xxServerError,clientResponse ->
