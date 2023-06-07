@@ -1,13 +1,13 @@
-package it.perigea.exporter;
+package it.perigea.consumer;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class ExporterApplication {
+public class ConsumerApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(ExporterApplication.class, args);
+		SpringApplication.run(ConsumerApplication.class, args);
 	}
 
 }
