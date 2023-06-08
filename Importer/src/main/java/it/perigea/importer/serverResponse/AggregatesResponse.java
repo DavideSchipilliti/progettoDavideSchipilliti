@@ -19,7 +19,7 @@ public class AggregatesResponse implements Serializable{
 	@JsonProperty("request_id")
 	private String requestId;
 	private Integer count;
-	private String next_url;
+	private String next_url;	//nel caso in cui la risposta supera la lunghezza limite
 	
 	
 	public AggregatesResponse() {

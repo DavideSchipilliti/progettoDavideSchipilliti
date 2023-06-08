@@ -7,6 +7,8 @@ import javax.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import it.perigea.importer.dto.ResponseDTO;
+import it.perigea.importer.dto.ResponseMapper;
 import it.perigea.importer.entities.Run;
 import it.perigea.importer.entities.Schedule;
 import it.perigea.importer.entities.Timespan;
@@ -29,6 +31,9 @@ public class WebClientService {
 	@Autowired
 	private KafkaProducerService kafkaProducerService;
 	
+	@Autowired
+	private ResponseMapper responseMapper;
+	
 	//@Scheduled
 	public AggregatesResponse getAggregates(Schedule job, String forexTicker, int multiplier, Timespan timespan, Timestamp from, Timestamp to) {
 
@@ -46,7 +51,8 @@ public class WebClientService {
 		runService.setRun(run);
 		
 		//Invio result al kafkaService
-		kafkaProducerService.sendMessage("AggregatesResponse", response);
+		ResponseDTO responseDTO=responseMapper.aggregatesResponseToResponseDTO(response);
+		kafkaProducerService.sendMessage("AggregatesResponse", responseDTO);
 		
 		return response;
 	}
@@ -68,7 +74,8 @@ public class WebClientService {
 		runService.setRun(run);
 		
 		//Invio result al kafkaService
-		kafkaProducerService.sendMessage("GroupedDailyResponse", response);
+		ResponseDTO responseDTO=responseMapper.groupedDailyResponseToResponseDTO(response);
+		kafkaProducerService.sendMessage("GroupedDailyResponse", responseDTO);
 		
 		return response;
 	}
@@ -90,7 +97,8 @@ public class WebClientService {
 		runService.setRun(run);
 		
 		//Inviare result al kafkaService
-		kafkaProducerService.sendMessage("PreviousCloseResponse", response);
+		ResponseDTO responseDTO=responseMapper.previousCloseResponseToResponseDTO(response);
+		kafkaProducerService.sendMessage("PreviousCloseResponse", responseDTO);
 		
 		return response;
 	}
