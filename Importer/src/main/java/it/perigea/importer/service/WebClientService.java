@@ -8,10 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import it.perigea.importer.dto.ResponseDTO;
-import it.perigea.importer.dto.ResponseMapper;
 import it.perigea.importer.entities.Run;
 import it.perigea.importer.entities.Schedule;
 import it.perigea.importer.entities.Timespan;
+import it.perigea.importer.mapper.ResponseMapper;
 import it.perigea.importer.serverResponse.AggregatesResponse;
 import it.perigea.importer.serverResponse.GroupedDailyResponse;
 import it.perigea.importer.serverResponse.PreviousCloseResponse;
