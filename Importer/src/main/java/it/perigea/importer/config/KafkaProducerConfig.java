@@ -19,7 +19,7 @@ import it.perigea.importer.dto.ResponseDTO;
 public class KafkaProducerConfig {
 	
 	@Bean
-    ProducerFactory<String, ResponseDTO> producerFactory() {
+    ProducerFactory<String, ResponseDTO> responseProducerFactory() {
         Map<String, Object> configProps = new HashMap<>();
         configProps.put(
           ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, 
@@ -34,8 +34,8 @@ public class KafkaProducerConfig {
     }
 
     @Bean
-    KafkaTemplate<String, ResponseDTO> kafkaTemplate() {
-        return new KafkaTemplate<>(producerFactory());
+    KafkaTemplate<String, ResponseDTO> responseKafkaTemplate() {
+        return new KafkaTemplate<>(responseProducerFactory());
     }
     
     

@@ -5,6 +5,7 @@ import java.sql.Timestamp;
 import javax.persistence.EntityNotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
 import it.perigea.importer.dto.ResponseDTO;
@@ -29,7 +30,7 @@ public class WebClientService {
 	private RunService runService;
 	
 	@Autowired
-	private KafkaProducerService kafkaProducerService;
+	private KafkaTemplate<String, ResponseDTO> kafkaTemplate;
 	
 	@Autowired
 	private ResponseMapper responseMapper;
@@ -52,7 +53,7 @@ public class WebClientService {
 		
 		//Invio result al kafkaService
 		ResponseDTO responseDTO=responseMapper.aggregatesResponseToResponseDTO(response);
-		kafkaProducerService.sendMessage("AggregatesResponse", responseDTO);
+		kafkaTemplate.send("AggregatesResponse", responseDTO);
 		
 		return response;
 	}
@@ -75,7 +76,7 @@ public class WebClientService {
 		
 		//Invio result al kafkaService
 		ResponseDTO responseDTO=responseMapper.groupedDailyResponseToResponseDTO(response);
-		kafkaProducerService.sendMessage("GroupedDailyResponse", responseDTO);
+		kafkaTemplate.send("GroupedDailyResponse", responseDTO);
 		
 		return response;
 	}
@@ -98,7 +99,7 @@ public class WebClientService {
 		
 		//Inviare result al kafkaService
 		ResponseDTO responseDTO=responseMapper.previousCloseResponseToResponseDTO(response);
-		kafkaProducerService.sendMessage("PreviousCloseResponse", responseDTO);
+		kafkaTemplate.send("PreviousCloseResponse", responseDTO);
 		
 		return response;
 	}
