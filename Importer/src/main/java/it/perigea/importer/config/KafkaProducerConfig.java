@@ -13,14 +13,12 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.core.ProducerFactory;
 import org.springframework.kafka.support.serializer.JsonSerializer;
 
-import it.perigea.importer.dto.ResponseDTO;
-
 @EnableKafka
 @Configuration
 public class KafkaProducerConfig {
 	
 	@Bean
-    ProducerFactory<String, ResponseDTO> responseProducerFactory() {
+    ProducerFactory<String, String> responseProducerFactory() {
         Map<String, Object> configProps = new HashMap<>();
         configProps.put(
           ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, 
@@ -35,7 +33,7 @@ public class KafkaProducerConfig {
     }
 
     @Bean
-    KafkaTemplate<String, ResponseDTO> responseKafkaTemplate() {
+    KafkaTemplate<String, String> responseKafkaTemplate() {
         return new KafkaTemplate<>(responseProducerFactory());
     }
     

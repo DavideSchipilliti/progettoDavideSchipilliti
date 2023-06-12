@@ -8,6 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import it.perigea.importer.dto.ResponseDTO;
 import it.perigea.importer.entities.Run;
 import it.perigea.importer.entities.Schedule;
@@ -30,10 +33,12 @@ public class WebClientService {
 	private RunService runService;
 	
 	@Autowired
-	private KafkaTemplate<String, ResponseDTO> kafkaTemplate;
+	private KafkaTemplate<String, String> kafkaTemplate;
 	
 	@Autowired
 	private ResponseMapper responseMapper;
+	
+	private ObjectMapper objectMapper=new ObjectMapper();
 	
 	//@Scheduled
 	public AggregatesResponse getAggregates(Schedule job, String forexTicker, int multiplier, Timespan timespan, Timestamp from, Timestamp to) {
@@ -53,7 +58,7 @@ public class WebClientService {
 		
 		//Invio result al kafkaService
 		ResponseDTO responseDTO=responseMapper.aggregatesResponseToResponseDTO(response);
-		kafkaTemplate.send("AggregatesResponse", responseDTO);
+		sendResponseToKafka("AggregatesResponse", responseDTO);
 		
 		return response;
 	}
@@ -76,7 +81,7 @@ public class WebClientService {
 		
 		//Invio result al kafkaService
 		ResponseDTO responseDTO=responseMapper.groupedDailyResponseToResponseDTO(response);
-		kafkaTemplate.send("GroupedDailyResponse", responseDTO);
+		sendResponseToKafka("GroupedDailyResponse", responseDTO);
 		
 		return response;
 	}
@@ -99,8 +104,18 @@ public class WebClientService {
 		
 		//Inviare result al kafkaService
 		ResponseDTO responseDTO=responseMapper.previousCloseResponseToResponseDTO(response);
-		kafkaTemplate.send("PreviousCloseResponse", responseDTO);
+		sendResponseToKafka("PreviousCloseResponse", responseDTO);
 		
 		return response;
+	}
+	
+	private void sendResponseToKafka(String topic, ResponseDTO responseDTO) {
+		String responseString=new String();
+		try {
+			responseString=objectMapper.writeValueAsString(responseDTO);
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+		}
+		kafkaTemplate.send(topic, responseString);
 	}
 }

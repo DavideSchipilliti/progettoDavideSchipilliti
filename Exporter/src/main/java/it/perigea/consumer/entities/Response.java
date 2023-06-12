@@ -11,6 +11,7 @@ public class Response implements Serializable{
 	private Integer resultsCount;
 	private List<Result> results;
 	
+	
 	//Getters and Setters
 	public String getRequestId() {
 		return requestId;
