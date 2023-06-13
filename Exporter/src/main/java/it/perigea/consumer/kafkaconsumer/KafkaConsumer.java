@@ -16,7 +16,7 @@ import it.perigea.consumer.service.ResponseService;
 public class KafkaConsumer {
 
 	@Autowired
-	ResponseService responseService;
+	private ResponseService responseService;
 	
 	private ObjectMapper objectMapper=new ObjectMapper();
 	
@@ -26,6 +26,7 @@ public class KafkaConsumer {
 		
 		//aggiungo la risposta al mongoDB
 		Response responseDTO = stringToResponseDTO(response);
+		responseDTO.setTypeOfResponse("AggregatesResponse");
 		responseService.setResponse(responseDTO);
 	}
 	
@@ -35,6 +36,7 @@ public class KafkaConsumer {
 		
 		//aggiungo la risposta al mongoDB
 		Response responseDTO = stringToResponseDTO(response);
+		responseDTO.setTypeOfResponse("GroupedDailyResponse");
 		responseService.setResponse(responseDTO);
 	}
 	
@@ -44,6 +46,7 @@ public class KafkaConsumer {
 		
 		//aggiungo la risposta al mongoDB
 		Response responseDTO = stringToResponseDTO(response);
+		responseDTO.setTypeOfResponse("PreviousCloseResponse");
 		responseService.setResponse(responseDTO);
 	}
 	

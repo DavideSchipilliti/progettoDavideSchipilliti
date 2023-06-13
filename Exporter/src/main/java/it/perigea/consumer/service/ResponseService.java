@@ -2,6 +2,7 @@ package it.perigea.consumer.service;
 
 import java.util.List;
 
+import org.apache.kafka.common.errors.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,13 +15,39 @@ public class ResponseService {
 	@Autowired
 	ResponseRepository responseRepository;
 	
-	public List<Response> viewAllResponse() {
+	public Response viewResponseById(String idToFind) {
+		Response response=responseRepository.findById(idToFind).orElseThrow(()->new ResourceNotFoundException("Result con id= " + idToFind + " non trovato."));
+		return response;
+	}
+	public List<Response> viewAllResponses() {
 		List<Response> allResponses=responseRepository.findAll();
 		return allResponses;
 	}
 	
-	public Response setResponse(Response response) {
-		responseRepository.insert(response);
-		return response;
+	public List<Response> viewResponsesByType(String typeToView) {
+		List<Response> allResponses=responseRepository.findAllByType(typeToView);
+		return allResponses;
 	}
+	
+	public Response setResponse(Response responseToInsert) {
+		responseRepository.insert(responseToInsert);
+		return responseToInsert;
+	}
+	
+	public Response deleteResponse(Response responseToDelete) {
+		responseRepository.delete(responseToDelete);
+		return responseToDelete;
+	}
+	
+	public List<Response> deleteAllResponses() {
+		List<Response> deletedResponses=responseRepository.findAllAndRemove();
+		return deletedResponses;
+	}
+	
+	public List<Response> deleteResponsesByType(String typeToDelete) {
+		List<Response> deletedResponses=responseRepository.findAllByTypeAndRemove(typeToDelete);
+		return deletedResponses;
+	}
+	
+	
 }

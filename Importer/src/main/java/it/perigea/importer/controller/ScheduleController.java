@@ -47,14 +47,14 @@ public class ScheduleController {
 	}
 	
 	@PutMapping("/setSchedule")
-	public ResponseEntity<Schedule> setSchedule (@RequestBody Schedule scheduleToSave){
+	public ResponseEntity<Schedule> setSchedule(@RequestBody Schedule scheduleToSave){
 		scheduleToSave.setCreation(new Timestamp(System.currentTimeMillis() ));
 		Schedule scheduleSaved = service.setSchedule(scheduleToSave);
 		return new ResponseEntity<Schedule> (scheduleSaved, HttpStatus.OK);
 	}
 	
 	@DeleteMapping("/deleteSchedule")
-	public ResponseEntity<Schedule> deleteSchedule (@RequestBody Schedule scheduleToDelete){
+	public ResponseEntity<Schedule> deleteSchedule(@RequestBody Schedule scheduleToDelete){
 		Schedule scheduleDeleted = service.deleteSchedule(scheduleToDelete);
 		return new ResponseEntity<Schedule> (scheduleDeleted, HttpStatus.OK);
 	}
