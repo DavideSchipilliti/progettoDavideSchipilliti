@@ -13,20 +13,24 @@ import it.perigea.importer.repository.RunRepository;
 public class RunService {
 	
 	@Autowired
-	private RunRepository repository;
+	private RunRepository runRepository;
 	
-	public List<Run> viewAllRun(){
-		return repository.findAll();
+	public List<Run> viewAllRuns(){
+		return runRepository.findAll();
 	}
 	
-	public List<Run> viewAllRunBySchedule(Schedule schedule){
-		return repository.findAllByJob(schedule);
+	public List<Run> viewAllRunsBySchedule(Schedule schedule){
+		return runRepository.findAllByJob(schedule);
 	}
 
 	public Run setRun(Run run) {
-		repository.save(run);
+		runRepository.save(run);
 		return run;
 	}
 	
-	
+	public List<Run> deleteAllRuns(){
+		List<Run> runsDeleted=runRepository.findAll();
+		runRepository.deleteAll();
+		return runsDeleted;
+	}
 }

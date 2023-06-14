@@ -13,7 +13,7 @@ public class Response implements Serializable{
 	
 	@Id
 	private String requestId;
-	private String typeOfResponse;
+	private TypeOfResponse type;
 	private Integer resultsCount;
 	private List<Result> results;
 	
@@ -37,10 +37,10 @@ public class Response implements Serializable{
 	public void setResults(List<Result> results) {
 		this.results = results;
 	}
-	public String getTypeOfResponse() {
-		return typeOfResponse;
+	public TypeOfResponse getTypeOfResponse() {
+		return type;
 	}
-	public void setTypeOfResponse(String typeOfResponse) {
-		this.typeOfResponse = typeOfResponse;
+	public void setTypeOfResponse(TypeOfResponse typeOfResponse) {
+		this.type = typeOfResponse;
 	}
 }

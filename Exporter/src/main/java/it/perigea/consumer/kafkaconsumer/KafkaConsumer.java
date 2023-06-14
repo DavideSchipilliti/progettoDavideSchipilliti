@@ -10,8 +10,10 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import it.perigea.consumer.entities.Response;
+import it.perigea.consumer.entities.TypeOfResponse;
 import it.perigea.consumer.service.ResponseService;
 
+//aggiunge la risposta al mongoDB
 @Component
 public class KafkaConsumer {
 
@@ -22,31 +24,25 @@ public class KafkaConsumer {
 	
 	@KafkaListener(topics="AggregatesResponse", groupId="Response", containerFactory="responseKafkaListenerContainerFactory")
 	public void listenAggregatesResponse(String response) {
-		System.out.println("Ricevuto AggregatesResponse: " + response);
 		
-		//aggiungo la risposta al mongoDB
 		Response responseDTO = stringToResponseDTO(response);
-		responseDTO.setTypeOfResponse("AggregatesResponse");
+		responseDTO.setTypeOfResponse(TypeOfResponse.AgregatesResponse);
 		responseService.setResponse(responseDTO);
 	}
 	
 	@KafkaListener(topics="GroupedDailyResponse", groupId = "Response", containerFactory = "responseKafkaListenerContainerFactory")
 	public void listenGroupedDailyResponse(String response) {
-		System.out.println("Ricevuto GroupedDailyResponse: " + response);
-		
-		//aggiungo la risposta al mongoDB
+
 		Response responseDTO = stringToResponseDTO(response);
-		responseDTO.setTypeOfResponse("GroupedDailyResponse");
+		responseDTO.setTypeOfResponse(TypeOfResponse.GroupedDailyResponse);
 		responseService.setResponse(responseDTO);
 	}
 	
 	@KafkaListener(topics="PreviousCloseResponse", groupId = "Response", containerFactory = "responseKafkaListenerContainerFactory")
 	public void listenPreviousCloseResponse(String response) {
-		System.out.println("Ricevuto PreviousCloseResponse: " + response);
-		
-		//aggiungo la risposta al mongoDB
+
 		Response responseDTO = stringToResponseDTO(response);
-		responseDTO.setTypeOfResponse("PreviousCloseResponse");
+		responseDTO.setTypeOfResponse(TypeOfResponse.PreviousCloseResponse);
 		responseService.setResponse(responseDTO);
 	}
 	
