@@ -46,7 +46,7 @@ public class ResponseService {
 	}
 	
 	public List<Response> deleteResponsesByType(String typeToDelete) {
-		List<Response> deletedResponses=responseRepository.deleteAllByTypeOfResponse(typeToDelete);
+		List<Response> deletedResponses=responseRepository.deleteByTypeOfResponse(typeToDelete);
 		return deletedResponses;
 	}
 }

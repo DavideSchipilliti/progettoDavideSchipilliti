@@ -9,5 +9,5 @@ import it.perigea.consumer.entities.Response;
 public interface ResponseRepository extends MongoRepository<Response, String>{
 
 	List<Response> findAllByTypeOfResponse(String type);
-	List<Response> deleteAllByTypeOfResponse(String type);
+	List<Response> deleteByTypeOfResponse(String type);
 }
