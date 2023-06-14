@@ -58,5 +58,4 @@ public class ScheduleController {
 		Schedule scheduleDeleted = service.deleteSchedule(scheduleToDelete);
 		return new ResponseEntity<Schedule> (scheduleDeleted, HttpStatus.OK);
 	}
-	
 }

@@ -25,7 +25,7 @@ public class ResponseService {
 	}
 	
 	public List<Response> viewResponsesByType(String typeToView) {
-		List<Response> allResponses=responseRepository.findAllByType(typeToView);
+		List<Response> allResponses=responseRepository.findAllByTypeOfResponse(typeToView);
 		return allResponses;
 	}
 	
@@ -40,14 +40,13 @@ public class ResponseService {
 	}
 	
 	public List<Response> deleteAllResponses() {
-		List<Response> deletedResponses=responseRepository.findAllAndRemove();
+		List<Response> deletedResponses=responseRepository.findAll();
+		responseRepository.deleteAll();
 		return deletedResponses;
 	}
 	
 	public List<Response> deleteResponsesByType(String typeToDelete) {
-		List<Response> deletedResponses=responseRepository.findAllByTypeAndRemove(typeToDelete);
+		List<Response> deletedResponses=responseRepository.deleteAllByTypeOfResponse(typeToDelete);
 		return deletedResponses;
 	}
-	
-	
 }

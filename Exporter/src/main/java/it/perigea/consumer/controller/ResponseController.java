@@ -58,13 +58,13 @@ public class ResponseController {
 		return new ResponseEntity<Response> (responseDeleted, HttpStatus.OK);
 	}
 	
-	@DeleteMapping("/deleteAllResponse")
+	@DeleteMapping("/deleteAllResponses")
 	public ResponseEntity<List<Response>> deleteAllResponse(){
 		List<Response> responsesDeleted = responseService.deleteAllResponses();
 		return new ResponseEntity<List<Response>> (responsesDeleted, HttpStatus.OK);
 	}
 	
-	@DeleteMapping("/deleteResponseByType/{type}")
+	@DeleteMapping("/deleteAllResponsesByType/{type}")
 	public ResponseEntity<List<Response>> deleteResponsesByType(@PathVariable String type){
 		List<Response> responsesDeleted = responseService.deleteResponsesByType(type);
 		return new ResponseEntity<List<Response>> (responsesDeleted, HttpStatus.OK);
