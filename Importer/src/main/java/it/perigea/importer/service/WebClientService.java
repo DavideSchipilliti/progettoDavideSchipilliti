@@ -1,6 +1,8 @@
 package it.perigea.importer.service;
 
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import javax.persistence.EntityNotFoundException;
 
@@ -41,8 +43,14 @@ public class WebClientService {
 	private ObjectMapper objectMapper=new ObjectMapper();
 	
 	//@Scheduled
-	public AggregatesResponse getAggregates(Schedule job, String forexTicker, int multiplier, Timespan timespan, Timestamp from, Timestamp to) {
+	public AggregatesResponse getAggregates(Schedule job) {
 
+		String forexTicker=job.getForexTicker();
+		int multiplier=job.getMultiplier();
+		Timespan timespan=job.getTimespan();
+		Timestamp from=job.getStart();
+		Timestamp to=job.getStop();
+		
 		Timestamp started=new Timestamp(System.currentTimeMillis());
 		
 		AggregatesResponse response= apiWebClient.aggregates(forexTicker, multiplier, timespan, from, to)
@@ -64,11 +72,16 @@ public class WebClientService {
 	}
 	
 	//@Scheduled
-	public GroupedDailyResponse getGroupedDaily(Schedule job, String date) {
+	public GroupedDailyResponse getGroupedDaily(Schedule job) {
 		
+		//trasformo il timestamp in una stringa
+		Date date = new Date(job.getStart().getTime());
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String dateString = sdf.format(date);
+        
 		Timestamp started=new Timestamp(System.currentTimeMillis());
 		
-		GroupedDailyResponse response= apiWebClient.groupedDaily(date)
+		GroupedDailyResponse response= apiWebClient.groupedDaily(dateString)
 				.orElseThrow(() -> new EntityNotFoundException());
 		
 		Timestamp finished=new Timestamp(System.currentTimeMillis());
@@ -87,7 +100,9 @@ public class WebClientService {
 	}
 	
 	//@Scheduled
-	public PreviousCloseResponse getPreviousClose(Schedule job, String forexTicker) {
+	public PreviousCloseResponse getPreviousClose(Schedule job) {
+		
+		String forexTicker=job.getForexTicker();
 		
 		Timestamp started=new Timestamp(System.currentTimeMillis());
 		

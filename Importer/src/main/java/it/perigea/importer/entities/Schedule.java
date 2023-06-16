@@ -28,6 +28,8 @@ public class Schedule implements Serializable{
 	private Long id;
 	@Column
 	private Timestamp creation;
+	@Column(name = "type_of_request")
+	private TypeOfRequest typeOfRequest;
 	@Column(nullable = false)
 	private Timestamp start;
 	@Column
@@ -41,6 +43,10 @@ public class Schedule implements Serializable{
 	private String forexTicker;
 	@OneToMany (mappedBy = "job", cascade = CascadeType.ALL)
 	private List<Run> executed;
+	@Column
+	private String cronString;
+	@Column
+	private State state;
 	
 	public Schedule() {
 		super();
@@ -96,5 +102,23 @@ public class Schedule implements Serializable{
 	}
 	public void setCreation(Timestamp creation) {
 		this.creation = creation;
+	}
+	public TypeOfRequest getTypeOfRequest() {
+		return typeOfRequest;
+	}
+	public void setTypeOfRequest(TypeOfRequest typeOfRequest) {
+		this.typeOfRequest = typeOfRequest;
+	}
+	public State getState() {
+		return state;
+	}
+	public void setState(State state) {
+		this.state = state;
+	}
+	public String getCronString() {
+		return cronString;
+	}
+	public void setCronString(String cronString) {
+		this.cronString = cronString;
 	}
 }

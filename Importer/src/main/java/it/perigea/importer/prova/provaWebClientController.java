@@ -33,8 +33,12 @@ public class provaWebClientController {
 	public ResponseEntity<AggregatesResponse> testGetAggregates(@PathVariable String forexTicker, @PathVariable int multiplier, @PathVariable Timespan timespan, @PathVariable Timestamp from, @PathVariable Timestamp to) {
 		
 		Schedule schedule=scheduleRepository.findById((long) 6).orElseThrow();
-		System.out.println( "Valori in ingresso al controller: " + forexTicker +" "+ multiplier +" "+ timespan +" "+ from +" "+ to);
-		AggregatesResponse response= webClientService.getAggregates(schedule, forexTicker, multiplier, timespan, from, to);
+		schedule.setForexTicker(forexTicker);
+		schedule.setMultiplier(multiplier);
+		schedule.setTimespan(timespan);
+		schedule.setStart(from);
+		schedule.setStop(to);
+		AggregatesResponse response= webClientService.getAggregates(schedule);
 		
 		return new ResponseEntity<AggregatesResponse>(response, HttpStatus.OK);
 		
@@ -43,10 +47,11 @@ public class provaWebClientController {
 	
 	@DateTimeFormat
 	@GetMapping("/getGroupedDaily/{date}")			//date va bene solo come data del tipo YYYY-MM-DD
-	public ResponseEntity<GroupedDailyResponse> testGetGroupedDaily(@PathVariable String date){
+	public ResponseEntity<GroupedDailyResponse> testGetGroupedDaily(@PathVariable Timestamp date){
 		
 		Schedule schedule=scheduleRepository.findById((long) 6).orElseThrow();
-		GroupedDailyResponse response= webClientService.getGroupedDaily(schedule, date);
+		schedule.setStart(date);
+		GroupedDailyResponse response= webClientService.getGroupedDaily(schedule);
 
 		return new ResponseEntity<GroupedDailyResponse>(response, HttpStatus.OK);
 	}
@@ -56,7 +61,8 @@ public class provaWebClientController {
 	public ResponseEntity<PreviousCloseResponse> testGetPreviousClose(@PathVariable String forexTicker){
 		
 		Schedule schedule=scheduleRepository.findById((long) 6).orElseThrow();
-		PreviousCloseResponse response= webClientService.getPreviousClose(schedule, forexTicker);
+		schedule.setForexTicker(forexTicker);
+		PreviousCloseResponse response= webClientService.getPreviousClose(schedule);
 
 		return new ResponseEntity<PreviousCloseResponse>(response, HttpStatus.OK);
 	}

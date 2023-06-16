@@ -50,12 +50,14 @@ public class ScheduleController {
 	public ResponseEntity<Schedule> setSchedule(@RequestBody Schedule scheduleToSave){
 		scheduleToSave.setCreation(new Timestamp(System.currentTimeMillis() ));
 		Schedule scheduleSaved=scheduleService.setSchedule(scheduleToSave);
+		//Qui devo chiamare il metodo di SchedulerConfig addNewSchedule
 		return new ResponseEntity<Schedule> (scheduleSaved, HttpStatus.OK);
 	}
 	
 	@DeleteMapping("/deleteSchedule")
 	public ResponseEntity<Schedule> deleteSchedule(@RequestBody Schedule scheduleToDelete){
 		Schedule scheduleDeleted = scheduleService.deleteSchedule(scheduleToDelete);
+		//al posto di eliminarlo posso mettere status=stopped o aggiungere un campo deleted.
 		return new ResponseEntity<Schedule> (scheduleDeleted, HttpStatus.OK);
 	}
 	
