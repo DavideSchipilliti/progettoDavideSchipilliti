@@ -42,7 +42,6 @@ public class WebClientService {
 	
 	private ObjectMapper objectMapper=new ObjectMapper();
 	
-	//@Scheduled
 	public AggregatesResponse getAggregates(Schedule job) {
 
 		String forexTicker=job.getForexTicker();
@@ -71,7 +70,6 @@ public class WebClientService {
 		return response;
 	}
 	
-	//@Scheduled
 	public GroupedDailyResponse getGroupedDaily(Schedule job) {
 		
 		//trasformo il timestamp in una stringa
@@ -99,7 +97,6 @@ public class WebClientService {
 		return response;
 	}
 	
-	//@Scheduled
 	public PreviousCloseResponse getPreviousClose(Schedule job) {
 		
 		String forexTicker=job.getForexTicker();

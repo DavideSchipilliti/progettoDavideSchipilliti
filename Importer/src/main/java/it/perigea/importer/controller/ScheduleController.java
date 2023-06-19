@@ -54,6 +54,12 @@ public class ScheduleController {
 		return new ResponseEntity<Schedule> (scheduleSaved, HttpStatus.OK);
 	}
 	
+	@DeleteMapping("/removeSchedule")
+	public ResponseEntity<Schedule> removeSchedule(@RequestBody Schedule scheduleToRemove){
+		Schedule scheduleRemoved = scheduleService.removeSchedule(scheduleToRemove);
+		return new ResponseEntity<Schedule> (scheduleRemoved, HttpStatus.OK);
+	}
+	
 	@DeleteMapping("/deleteSchedule")
 	public ResponseEntity<Schedule> deleteSchedule(@RequestBody Schedule scheduleToDelete){
 		Schedule scheduleDeleted = scheduleService.deleteSchedule(scheduleToDelete);

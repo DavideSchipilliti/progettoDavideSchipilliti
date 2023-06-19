@@ -1,3 +1,5 @@
+/*
+
 package it.perigea.importer.prova;
 
 import java.sql.Timestamp;
@@ -32,7 +34,7 @@ public class provaWebClientController {
 	@GetMapping("/getAggregates/{forexTicker}/{multiplier}/{timespan}/{from}/{to}")		//from e to vanno bene sia come Timestamp (al millisecondo) sia come data del tipo YYYY-MM-DD
 	public ResponseEntity<AggregatesResponse> testGetAggregates(@PathVariable String forexTicker, @PathVariable int multiplier, @PathVariable Timespan timespan, @PathVariable Timestamp from, @PathVariable Timestamp to) {
 		
-		Schedule schedule=scheduleRepository.findById((long) 6).orElseThrow();
+		Schedule schedule=scheduleRepository.findById((long) 11).orElseThrow();
 		schedule.setForexTicker(forexTicker);
 		schedule.setMultiplier(multiplier);
 		schedule.setTimespan(timespan);
@@ -49,7 +51,7 @@ public class provaWebClientController {
 	@GetMapping("/getGroupedDaily/{date}")			//date va bene solo come data del tipo YYYY-MM-DD
 	public ResponseEntity<GroupedDailyResponse> testGetGroupedDaily(@PathVariable Timestamp date){
 		
-		Schedule schedule=scheduleRepository.findById((long) 6).orElseThrow();
+		Schedule schedule=scheduleRepository.findById((long) 12).orElseThrow();
 		schedule.setStart(date);
 		GroupedDailyResponse response= webClientService.getGroupedDaily(schedule);
 
@@ -60,10 +62,11 @@ public class provaWebClientController {
 	@GetMapping("/getPreviousClose/{forexTicker}")
 	public ResponseEntity<PreviousCloseResponse> testGetPreviousClose(@PathVariable String forexTicker){
 		
-		Schedule schedule=scheduleRepository.findById((long) 6).orElseThrow();
+		Schedule schedule=scheduleRepository.findById((long) 13).orElseThrow();
 		schedule.setForexTicker(forexTicker);
 		PreviousCloseResponse response= webClientService.getPreviousClose(schedule);
 
 		return new ResponseEntity<PreviousCloseResponse>(response, HttpStatus.OK);
 	}
 }
+*/

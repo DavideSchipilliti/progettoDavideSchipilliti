@@ -28,6 +28,7 @@ public class Schedule implements Serializable{
 	private Long id;
 	@Column
 	private Timestamp creation;
+	@Enumerated(EnumType.STRING)
 	@Column(name = "type_of_request")
 	private TypeOfRequest typeOfRequest;
 	@Column(nullable = false)
@@ -43,8 +44,9 @@ public class Schedule implements Serializable{
 	private String forexTicker;
 	@OneToMany (mappedBy = "job", cascade = CascadeType.ALL)
 	private List<Run> executed;
-	@Column
+	@Column(name = "cron_expression")
 	private String cronString;
+	@Enumerated(EnumType.STRING)
 	@Column
 	private State state;
 	
