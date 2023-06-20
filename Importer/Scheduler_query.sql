@@ -31,6 +31,9 @@ CREATE TABLE run (
 select * from schedule;
 select * from run;
 
+SELECT R.id AS job, S.id AS schedule, S.creation, R.started, R.status, S.type_of_Request, S.cron_expression
+from run AS R Join schedule AS S ON R.schedule_id=S.id
+
 delete from run;
 delete from schedule;
 	   
