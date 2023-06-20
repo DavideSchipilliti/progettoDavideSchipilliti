@@ -1,4 +1,4 @@
-package it.perigea.importer.dto;
+package it.perigea.importer.serverResponse.dto;
 
 import java.io.Serializable;
 
@@ -13,6 +13,7 @@ public class ResultDTO implements Serializable{
 	private Float lowestPrice;
 	private Long tradingVolume;			//numero di unità scambiate
 	private Float vwap;					//Volume-Weighted Average Price (prezzo medio ponderato per il volume)
+	private Long startTimestamp;
 	private Integer numberOfTransaction;
 	
 	
@@ -67,5 +68,11 @@ public class ResultDTO implements Serializable{
 	}
 	public static long getSerialversionuid() {
 		return serialVersionUID;
+	}
+	public Long getStartTimestamp() {
+		return startTimestamp;
+	}
+	public void setStartTimestamp(Long startTimestamp) {
+		this.startTimestamp = startTimestamp;
 	}
 }

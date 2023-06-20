@@ -9,6 +9,6 @@ import it.perigea.importer.entities.Schedule;
 
 public interface RunRepository extends JpaRepository<Run, String>{
 
-	List<Run> findAllByJob(Schedule job);
+	List<Run> findAllBySchedule(Schedule schedule);
 
 }

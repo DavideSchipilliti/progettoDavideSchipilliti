@@ -1,4 +1,4 @@
-package it.perigea.importer.dto;
+package it.perigea.importer.serverResponse.dto;
 
 import java.io.Serializable;
 import java.util.List;

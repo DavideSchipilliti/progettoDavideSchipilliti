@@ -7,6 +7,7 @@ public class Result implements Serializable{
 	private static final long serialVersionUID = -2949207586663289200L;
 	
 	private String ticker;
+	private Long startTimestamp;
 	private Float openPrice;
 	private Float closePrice;
 	private Float highestPrice;
@@ -64,5 +65,11 @@ public class Result implements Serializable{
 	}
 	public void setNumberOfTransaction(Integer numberOfTransaction) {
 		this.numberOfTransaction = numberOfTransaction;
+	}
+	public Long getStartTimestamp() {
+		return startTimestamp;
+	}
+	public void setStartTimestamp(Long startTimestamp) {
+		this.startTimestamp = startTimestamp;
 	}
 }

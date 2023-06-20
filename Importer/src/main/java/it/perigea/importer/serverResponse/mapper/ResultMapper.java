@@ -1,14 +1,14 @@
-package it.perigea.importer.mapper;
+package it.perigea.importer.serverResponse.mapper;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Component;
 
-import it.perigea.importer.dto.ResultDTO;
 import it.perigea.importer.serverResponse.AggregatesResult;
 import it.perigea.importer.serverResponse.GroupedDailyResult;
 import it.perigea.importer.serverResponse.PreviousCloseResult;
+import it.perigea.importer.serverResponse.dto.ResultDTO;
 
 @Component
 public class ResultMapper {
@@ -22,6 +22,7 @@ public class ResultMapper {
 		resultDTO.setNumberOfTransaction(aggregatesResult.getNumberOfTransaction());
 		resultDTO.setTradingVolume(aggregatesResult.getTradingVolume());
 		resultDTO.setVwap(aggregatesResult.getVwap());
+		resultDTO.setStartTimestamp(aggregatesResult.getStartTimestamp());
 		return resultDTO;
 	}
 	
@@ -35,6 +36,7 @@ public class ResultMapper {
 		resultDTO.setNumberOfTransaction(groupedDailyResult.getNumberOfTransaction());
 		resultDTO.setTradingVolume(groupedDailyResult.getTradingVolume());
 		resultDTO.setVwap(groupedDailyResult.getVwap());
+		resultDTO.setStartTimestamp(groupedDailyResult.getStartTimestamp());
 		return resultDTO;
 	}
 	
@@ -48,6 +50,7 @@ public class ResultMapper {
 		resultDTO.setNumberOfTransaction(previousCloseResult.getNumberOfTransaction());
 		resultDTO.setTradingVolume(previousCloseResult.getTradingVolume());
 		resultDTO.setVwap(previousCloseResult.getVwap());
+		resultDTO.setStartTimestamp(previousCloseResult.getStartTimestamp());
 		return resultDTO;
 	}
 	

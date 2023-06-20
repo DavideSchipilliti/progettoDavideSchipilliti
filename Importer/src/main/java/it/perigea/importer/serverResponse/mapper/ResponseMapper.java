@@ -1,15 +1,15 @@
-package it.perigea.importer.mapper;
+package it.perigea.importer.serverResponse.mapper;
 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import it.perigea.importer.dto.ResponseDTO;
-import it.perigea.importer.dto.ResultDTO;
 import it.perigea.importer.serverResponse.AggregatesResponse;
 import it.perigea.importer.serverResponse.GroupedDailyResponse;
 import it.perigea.importer.serverResponse.PreviousCloseResponse;
+import it.perigea.importer.serverResponse.dto.ResponseDTO;
+import it.perigea.importer.serverResponse.dto.ResultDTO;
 
 @Component
 public class ResponseMapper {

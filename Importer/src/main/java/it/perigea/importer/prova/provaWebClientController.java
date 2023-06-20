@@ -21,6 +21,7 @@ import it.perigea.importer.serverResponse.GroupedDailyResponse;
 import it.perigea.importer.serverResponse.PreviousCloseResponse;
 import it.perigea.importer.service.WebClientService;
 
+// DA TOGLIERE
 @RestController
 @RequestMapping("/testWebClient")
 public class provaWebClientController {

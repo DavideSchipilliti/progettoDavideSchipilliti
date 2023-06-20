@@ -13,14 +13,14 @@ import org.springframework.stereotype.Service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import it.perigea.importer.dto.ResponseDTO;
 import it.perigea.importer.entities.Run;
 import it.perigea.importer.entities.Schedule;
 import it.perigea.importer.entities.Timespan;
-import it.perigea.importer.mapper.ResponseMapper;
 import it.perigea.importer.serverResponse.AggregatesResponse;
 import it.perigea.importer.serverResponse.GroupedDailyResponse;
 import it.perigea.importer.serverResponse.PreviousCloseResponse;
+import it.perigea.importer.serverResponse.dto.ResponseDTO;
+import it.perigea.importer.serverResponse.mapper.ResponseMapper;
 import it.perigea.importer.webclient.ApiWebClient;
 
 //Questa classe si occupa di fare la chiamata a ApiWebClient, ricevere la risposta e con essa salvare il job sul DB e inviare i dati al KafkaService.
@@ -42,13 +42,13 @@ public class WebClientService {
 	
 	private ObjectMapper objectMapper=new ObjectMapper();
 	
-	public AggregatesResponse getAggregates(Schedule job) {
+	public AggregatesResponse getAggregates(Schedule schedule) {
 
-		String forexTicker=job.getForexTicker();
-		int multiplier=job.getMultiplier();
-		Timespan timespan=job.getTimespan();
-		Timestamp from=job.getStart();
-		Timestamp to=job.getStop();
+		String forexTicker=schedule.getForexTicker();
+		int multiplier=schedule.getMultiplier();
+		Timespan timespan=schedule.getTimespan();
+		Timestamp from=schedule.getDate1();
+		Timestamp to=schedule.getDate2();
 		
 		Timestamp started=new Timestamp(System.currentTimeMillis());
 		
@@ -58,9 +58,8 @@ public class WebClientService {
 		Timestamp finished=new Timestamp(System.currentTimeMillis());
 
 		//Aggiungo il job sul DB usando RunService
-		String id=response.getRequestId();
 		String status=response.getStatus();
-		Run run = new Run(id, started, finished, status, job);
+		Run run = new Run(started, finished, status, schedule.getId() );
 		runService.setRun(run);
 		
 		//Invio result al kafkaService
@@ -70,10 +69,10 @@ public class WebClientService {
 		return response;
 	}
 	
-	public GroupedDailyResponse getGroupedDaily(Schedule job) {
+	public GroupedDailyResponse getGroupedDaily(Schedule schedule) {
 		
 		//trasformo il timestamp in una stringa
-		Date date = new Date(job.getStart().getTime());
+		Date date = new Date(schedule.getDate1().getTime());
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         String dateString = sdf.format(date);
         
@@ -85,9 +84,8 @@ public class WebClientService {
 		Timestamp finished=new Timestamp(System.currentTimeMillis());
 
 		//Aggiungo il job sul DB usando RunService
-		String id=response.getRequestId();
 		String status=response.getStatus();
-		Run run = new Run(id, started, finished, status, job);
+		Run run = new Run(started, finished, status, schedule.getId());
 		runService.setRun(run);
 		
 		//Invio result al kafkaService
@@ -97,9 +95,9 @@ public class WebClientService {
 		return response;
 	}
 	
-	public PreviousCloseResponse getPreviousClose(Schedule job) {
+	public PreviousCloseResponse getPreviousClose(Schedule schedule) {
 		
-		String forexTicker=job.getForexTicker();
+		String forexTicker=schedule.getForexTicker();
 		
 		Timestamp started=new Timestamp(System.currentTimeMillis());
 		
@@ -109,9 +107,8 @@ public class WebClientService {
 		Timestamp finished=new Timestamp(System.currentTimeMillis());
 
 		//Aggiungo il job sul DB usando RunService
-		String id=response.getRequestId();
 		String status=response.getStatus();
-		Run run = new Run(id, started, finished, status, job);		//lo status dovrei personalizzarlo
+		Run run = new Run(started, finished, status, schedule.getId());		//lo status dovrei personalizzarlo
 		runService.setRun(run);
 		
 		//Inviare result al kafkaService

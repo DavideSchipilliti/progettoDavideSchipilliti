@@ -23,7 +23,6 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 public class Schedule implements Serializable{
 	
 	@Id
-	@Column(name="job")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	@Column
@@ -31,10 +30,10 @@ public class Schedule implements Serializable{
 	@Enumerated(EnumType.STRING)
 	@Column(name = "type_of_request")
 	private TypeOfRequest typeOfRequest;
-	@Column(nullable = false)
-	private Timestamp start;
 	@Column
-	private Timestamp stop;
+	private Timestamp date1;
+	@Column
+	private Timestamp date2;
 	@Enumerated(EnumType.STRING)
 	@Column
 	private Timespan timespan;
@@ -42,7 +41,7 @@ public class Schedule implements Serializable{
 	private Integer multiplier;
 	@Column(name = "forex_ticker")
 	private String forexTicker;
-	@OneToMany (mappedBy = "job", cascade = CascadeType.ALL)
+	@OneToMany (mappedBy = "id", cascade = CascadeType.ALL)
 	private List<Run> executed;
 	@Column(name = "cron_expression")
 	private String cronString;
@@ -63,17 +62,17 @@ public class Schedule implements Serializable{
 	public void setId(Long id) {
 		this.id = id;
 	}
-	public Timestamp getStart() {
-		return start;
+	public Timestamp getDate1() {
+		return date1;
 	}
-	public void setStart(Timestamp start) {
-		this.start = start;
+	public void setDate1(Timestamp date1) {
+		this.date1 = date1;
 	}
-	public Timestamp getStop() {
-		return stop;
+	public Timestamp getDate2() {
+		return date2;
 	}
-	public void setStop(Timestamp stop) {
-		this.stop = stop;
+	public void setDate2(Timestamp date2) {
+		this.date2 = date2;
 	}
 	public Timespan getTimespan() {
 		return timespan;

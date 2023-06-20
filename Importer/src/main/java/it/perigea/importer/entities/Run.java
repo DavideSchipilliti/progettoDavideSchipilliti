@@ -3,52 +3,48 @@ package it.perigea.importer.entities;
 import java.io.Serializable;
 import java.sql.Timestamp;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIdentityReference;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 @SuppressWarnings("serial")
 @Entity
 public class Run implements Serializable{
 
 	@Id
-	private String id;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 	@Column (nullable=false)
 	private Timestamp started;
 	@Column (nullable=false)
 	private Timestamp finished;
 	@Column (nullable=false)
 	private String status;
-	@ManyToOne (cascade = CascadeType.ALL)
-	@JoinColumn (name = "JOB_ID", nullable=false)
-	@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
-    @JsonIdentityReference(alwaysAsId = true)
-	private Schedule job;
+	//@ManyToOne (cascade = CascadeType.ALL)
+	//@JoinColumn (name = "SCHEDULE_ID", nullable=false)
+	//@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+    //@JsonIdentityReference(alwaysAsId = true)
+	@Column (name = "SCHEDULE_ID", nullable=false)
+	private Long schedule;
 	
 	public Run() {
 		super();
 	}
 	
-	public Run(String id, Timestamp started, Timestamp finished, String status, Schedule job) {
-		this.id=id;
+	public Run(Timestamp started, Timestamp finished, String status, Long schedule) {
 		this.started=started;
 		this.finished=finished;
 		this.status=status;
-		this.job=job;
+		this.schedule=schedule;
 	}
 	
 	//Getter and Setter
-	public String getId() {
+	public Long getId() {
 		return id;
 	}
-	public void setId(String id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 	public Timestamp getStarted() {
@@ -69,10 +65,10 @@ public class Run implements Serializable{
 	public void setStatus(String status) {
 		this.status = status;
 	}
-	public Schedule getJob() {
-		return job;
+	public Long getSchedule() {
+		return schedule;
 	}
-	public void setJob(Schedule job) {
-		this.job = job;
+	public void setSchedule(Long job) {
+		this.schedule = job;
 	}
 }

@@ -20,7 +20,7 @@ public class RunService {
 	}
 	
 	public List<Run> viewAllRunsBySchedule(Schedule schedule){
-		return runRepository.findAllByJob(schedule);
+		return runRepository.findAllBySchedule(schedule);
 	}
 
 	public Run setRun(Run run) {

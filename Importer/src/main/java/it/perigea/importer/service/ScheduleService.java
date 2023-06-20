@@ -30,12 +30,14 @@ public class ScheduleService {
 		return schedule;
 	}
 	
+	//prima di avviare la schedulazione potrei fare un controllo per capire se non è necessaria ma basta eseguire una volta la chiamata.
 	public Schedule setSchedule(Schedule schedule) {
 		scheduleRepository.save(schedule);
 		scheduler.addNewSchedule(schedule);
 		return schedule;
 	}
 	
+	//Al posto di eliminare uno schedule uso remove per metterlo in state=stopped e bloccare la schedulazione.
 	public Schedule removeSchedule(Schedule schedule) {
 		scheduler.removeSchedule(schedule);
 		schedule.setState(State.stopped);

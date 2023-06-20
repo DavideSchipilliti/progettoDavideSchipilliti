@@ -20,8 +20,8 @@ import it.perigea.importer.service.WebClientService;
 @Component
 public class Scheduler {
 
-	@Autowired
-	private ScheduleRepository scheduleRepository;
+	@Autowired		//uso schedule repository al posto di schedule service per non avere una dipendenza ciclica
+	private ScheduleRepository scheduleRepository;	
 	
 	@Autowired
 	private WebClientService webClientService;
@@ -29,13 +29,12 @@ public class Scheduler {
 	@Autowired
 	private ThreadPoolTaskScheduler taskScheduler;
 	
-	private List<Schedule> schedulesToRun;
 	private Map<Long, ScheduledFuture<?>> schedulesRunning;
 	
 	@PostConstruct	//dato che utilizzo dei bean è meglio farlo partire subito dopo la costruzione
 	public void executeOnStartup() {
 		schedulesRunning= new HashMap<>();
-		schedulesToRun=scheduleRepository.findAll();
+		List<Schedule> schedulesToRun=scheduleRepository.findAll();
 		schedulesToRun.forEach(schedule -> addNewSchedule(schedule));
 	}
 
@@ -67,7 +66,7 @@ public class Scheduler {
 	public void removeSchedule(Schedule schedule) {
 		if(schedule.getState() == State.pending) {
 			ScheduledFuture<?> removed=schedulesRunning.remove(schedule.getId());
-			removed.cancel(false);	//true se voglio interrompere il task anche se è un esecuzione in questo momento
+			removed.cancel(false);	//true se voglio interrompere il task anche se è in esecuzione in questo momento
 		}
 	}
 }
