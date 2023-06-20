@@ -41,7 +41,7 @@ public class Schedule implements Serializable{
 	private Integer multiplier;
 	@Column(name = "forex_ticker")
 	private String forexTicker;
-	@OneToMany (mappedBy = "id", cascade = CascadeType.ALL)
+	@OneToMany (mappedBy = "schedule", cascade = CascadeType.ALL)
 	private List<Run> executed;
 	@Column(name = "cron_expression")
 	private String cronString;
