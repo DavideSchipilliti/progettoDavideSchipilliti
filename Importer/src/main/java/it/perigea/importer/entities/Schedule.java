@@ -17,10 +17,15 @@ import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-@SuppressWarnings("serial")
+import it.perigea.importer.entities.enums.State;
+import it.perigea.importer.entities.enums.Timespan;
+import it.perigea.importer.entities.enums.TypeOfRequest;
+
 @Entity
 @JsonIgnoreProperties("executed")
 public class Schedule implements Serializable{
+	
+	private static final long serialVersionUID = -4323015840387512707L;
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -9,10 +9,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-@SuppressWarnings("serial")
 @Entity
 public class Run implements Serializable{
 
+	private static final long serialVersionUID = -1344603905491936917L;
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
