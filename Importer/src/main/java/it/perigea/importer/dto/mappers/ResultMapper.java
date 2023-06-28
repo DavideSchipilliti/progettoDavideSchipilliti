@@ -1,14 +1,14 @@
-package it.perigea.importer.serverResponse.mapper;
+package it.perigea.importer.dto.mappers;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Component;
 
-import it.perigea.importer.serverResponse.AggregatesResult;
-import it.perigea.importer.serverResponse.GroupedDailyResult;
-import it.perigea.importer.serverResponse.PreviousCloseResult;
-import it.perigea.importer.serverResponse.dto.ResultDTO;
+import it.perigea.importer.dto.ResultDTO;
+import it.perigea.importer.dto.serverResponses.AggregatesResult;
+import it.perigea.importer.dto.serverResponses.GroupedDailyResult;
+import it.perigea.importer.dto.serverResponses.PreviousCloseResult;
 
 @Component
 public class ResultMapper {

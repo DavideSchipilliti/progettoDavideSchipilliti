@@ -1,30 +1,19 @@
-package it.perigea.importer.serverResponse;
+package it.perigea.importer.dto;
 
 import java.io.Serializable;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+public class ResultDTO implements Serializable{
 
-public class GroupedDailyResult implements Serializable{
-
-	private static final long serialVersionUID = -4680667528024770394L;
+	private static final long serialVersionUID = -1272159966083998748L;
 	
-	@JsonProperty("T")
 	private String ticker;
-	@JsonProperty("v")
-	private Long tradingVolume;
-	@JsonProperty("vw")
-	private Float vwap;
-	@JsonProperty("o")
 	private Float openPrice;
-	@JsonProperty("c")
 	private Float closePrice;
-	@JsonProperty("h")
 	private Float highestPrice;
-	@JsonProperty("l")
 	private Float lowestPrice;
-	@JsonProperty("t")
+	private Long tradingVolume;			//numero di unità scambiate
+	private Float vwap;					//Volume-Weighted Average Price (prezzo medio ponderato per il volume)
 	private Long startTimestamp;
-	@JsonProperty("n")
 	private Integer numberOfTransaction;
 	
 	
@@ -34,18 +23,6 @@ public class GroupedDailyResult implements Serializable{
 	}
 	public void setTicker(String ticker) {
 		this.ticker = ticker;
-	}
-	public Long getTradingVolume() {
-		return tradingVolume;
-	}
-	public void setTradingVolume(Long tradingVolume) {
-		this.tradingVolume = tradingVolume;
-	}
-	public Float getVwap() {
-		return vwap;
-	}
-	public void setVwap(Float vwap) {
-		this.vwap = vwap;
 	}
 	public Float getOpenPrice() {
 		return openPrice;
@@ -71,16 +48,31 @@ public class GroupedDailyResult implements Serializable{
 	public void setLowestPrice(Float lowestPrice) {
 		this.lowestPrice = lowestPrice;
 	}
-	public Long getStartTimestamp() {
-		return startTimestamp;
+	public Long getTradingVolume() {
+		return tradingVolume;
 	}
-	public void setStartTimestamp(Long startTimestamp) {
-		this.startTimestamp = startTimestamp;
+	public void setTradingVolume(Long tradingVolume) {
+		this.tradingVolume = tradingVolume;
+	}
+	public Float getVwap() {
+		return vwap;
+	}
+	public void setVwap(Float vwap) {
+		this.vwap = vwap;
 	}
 	public Integer getNumberOfTransaction() {
 		return numberOfTransaction;
 	}
 	public void setNumberOfTransaction(Integer numberOfTransaction) {
 		this.numberOfTransaction = numberOfTransaction;
+	}
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+	public Long getStartTimestamp() {
+		return startTimestamp;
+	}
+	public void setStartTimestamp(Long startTimestamp) {
+		this.startTimestamp = startTimestamp;
 	}
 }

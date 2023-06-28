@@ -13,10 +13,10 @@ import org.springframework.web.reactive.function.client.WebClientResponseExcepti
 
 import it.perigea.importer.customException.CustomClientErrorException;
 import it.perigea.importer.customException.CustomServerErrorException;
-import it.perigea.importer.entities.Timespan;
-import it.perigea.importer.serverResponse.AggregatesResponse;
-import it.perigea.importer.serverResponse.GroupedDailyResponse;
-import it.perigea.importer.serverResponse.PreviousCloseResponse;
+import it.perigea.importer.dto.serverResponses.AggregatesResponse;
+import it.perigea.importer.dto.serverResponses.GroupedDailyResponse;
+import it.perigea.importer.dto.serverResponses.PreviousCloseResponse;
+import it.perigea.importer.entities.enums.Timespan;
 import reactor.core.publisher.Mono;
 
 // Questa classe si occupa di fare la chiamata alle API del Server.

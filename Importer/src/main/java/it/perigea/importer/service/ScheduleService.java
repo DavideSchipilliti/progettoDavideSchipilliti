@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import it.perigea.importer.entities.Schedule;
-import it.perigea.importer.entities.State;
+import it.perigea.importer.entities.enums.State;
 import it.perigea.importer.repository.ScheduleRepository;
 import it.perigea.importer.scheduler.Scheduler;
 

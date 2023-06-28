@@ -1,4 +1,4 @@
-package it.perigea.importer.entities;
+package it.perigea.importer.entities.enums;
 
 public enum State {
 	pending,
