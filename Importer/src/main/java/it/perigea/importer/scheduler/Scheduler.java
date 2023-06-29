@@ -12,9 +12,11 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.scheduling.support.CronTrigger;
 import org.springframework.stereotype.Component;
 
+import it.perigea.importer.dto.ResponseDTO;
 import it.perigea.importer.entities.Schedule;
-import it.perigea.importer.entities.State;
+import it.perigea.importer.entities.enums.State;
 import it.perigea.importer.repository.ScheduleRepository;
+import it.perigea.importer.service.KafkaProducerService;
 import it.perigea.importer.service.WebClientService;
 
 @Component
@@ -28,6 +30,9 @@ public class Scheduler {
 	
 	@Autowired
 	private ThreadPoolTaskScheduler taskScheduler;
+	
+	@Autowired
+	private KafkaProducerService kafkaProducerService;
 	
 	private Map<Long, ScheduledFuture<?>> schedulesRunning;
 	
@@ -53,14 +58,26 @@ public class Scheduler {
 	}
 	
 	private void run(Schedule schedule) {
+		ResponseDTO response=null;
+		String topic=null;
+		
 		switch(schedule.getTypeOfRequest()) {
-			case Aggregates: webClientService.getAggregates(schedule);
+			case Aggregates: 
+				response=webClientService.getAggregates(schedule);
+				topic="AggregatesResponse";
 				break;
-			case GroupedDaily: webClientService.getGroupedDaily(schedule);
+			case GroupedDaily: 
+				response=webClientService.getGroupedDaily(schedule);
+				topic="GroupedDailyResponse";
 				break;
-			case PreviousClose: webClientService.getPreviousClose(schedule);
+			case PreviousClose:
+				response=webClientService.getPreviousClose(schedule);
+				topic="PreviousCloseResponse";
 				break;
 		}
+		
+		// per ora non metto il controllo 
+		kafkaProducerService.sendResponseToKafka(topic, response);
 	}
 	
 	public void removeSchedule(Schedule schedule) {

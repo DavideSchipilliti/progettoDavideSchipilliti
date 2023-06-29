@@ -7,23 +7,19 @@ import java.util.Date;
 import javax.persistence.EntityNotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
+import it.perigea.importer.dto.ResponseDTO;
+import it.perigea.importer.dto.mappers.ResponseMapper;
+import it.perigea.importer.dto.serverResponses.AggregatesResponse;
+import it.perigea.importer.dto.serverResponses.GroupedDailyResponse;
+import it.perigea.importer.dto.serverResponses.PreviousCloseResponse;
 import it.perigea.importer.entities.Run;
 import it.perigea.importer.entities.Schedule;
-import it.perigea.importer.entities.Timespan;
-import it.perigea.importer.serverResponse.AggregatesResponse;
-import it.perigea.importer.serverResponse.GroupedDailyResponse;
-import it.perigea.importer.serverResponse.PreviousCloseResponse;
-import it.perigea.importer.serverResponse.dto.ResponseDTO;
-import it.perigea.importer.serverResponse.mapper.ResponseMapper;
+import it.perigea.importer.entities.enums.Timespan;
 import it.perigea.importer.webclient.ApiWebClient;
 
-//Questa classe si occupa di fare la chiamata a ApiWebClient, ricevere la risposta e con essa salvare il job sul DB e inviare i dati al KafkaService.
+//Questa classe si occupa di fare la chiamata a ApiWebClient, ricevere la risposta e con essa salvare il job sul DB.
 
 @Service
 public class WebClientService {
@@ -35,14 +31,9 @@ public class WebClientService {
 	private RunService runService;
 	
 	@Autowired
-	private KafkaTemplate<String, String> kafkaTemplate;
-	
-	@Autowired
 	private ResponseMapper responseMapper;
 	
-	private ObjectMapper objectMapper=new ObjectMapper();
-	
-	public AggregatesResponse getAggregates(Schedule schedule) {
+	public ResponseDTO getAggregates(Schedule schedule) {
 
 		String forexTicker=schedule.getForexTicker();
 		int multiplier=schedule.getMultiplier();
@@ -59,17 +50,15 @@ public class WebClientService {
 
 		//Aggiungo il job sul DB usando RunService
 		String status=response.getStatus();
-		Run run = new Run(started, finished, status, schedule.getId() );
+		Run run = new Run(started, finished, status, schedule.getId());
 		runService.setRun(run);
 		
-		//Invio result al kafkaService
 		ResponseDTO responseDTO=responseMapper.aggregatesResponseToResponseDTO(response);
-		sendResponseToKafka("AggregatesResponse", responseDTO);
 		
-		return response;
+		return responseDTO;
 	}
 	
-	public GroupedDailyResponse getGroupedDaily(Schedule schedule) {
+	public ResponseDTO getGroupedDaily(Schedule schedule) {
 		
 		//trasformo il timestamp in una stringa
 		Date date = new Date(schedule.getDate1().getTime());
@@ -88,14 +77,12 @@ public class WebClientService {
 		Run run = new Run(started, finished, status, schedule.getId());
 		runService.setRun(run);
 		
-		//Invio result al kafkaService
 		ResponseDTO responseDTO=responseMapper.groupedDailyResponseToResponseDTO(response);
-		sendResponseToKafka("GroupedDailyResponse", responseDTO);
 		
-		return response;
+		return responseDTO;
 	}
 	
-	public PreviousCloseResponse getPreviousClose(Schedule schedule) {
+	public ResponseDTO getPreviousClose(Schedule schedule) {
 		
 		String forexTicker=schedule.getForexTicker();
 		
@@ -111,20 +98,8 @@ public class WebClientService {
 		Run run = new Run(started, finished, status, schedule.getId());		//lo status dovrei personalizzarlo
 		runService.setRun(run);
 		
-		//Inviare result al kafkaService
 		ResponseDTO responseDTO=responseMapper.previousCloseResponseToResponseDTO(response);
-		sendResponseToKafka("PreviousCloseResponse", responseDTO);
 		
-		return response;
-	}
-	
-	private void sendResponseToKafka(String topic, ResponseDTO responseDTO) {
-		String responseString=new String();
-		try {
-			responseString=objectMapper.writeValueAsString(responseDTO);
-		} catch (JsonProcessingException e) {
-			e.printStackTrace();
-		}
-		kafkaTemplate.send(topic, responseString);
+		return responseDTO;
 	}
 }
