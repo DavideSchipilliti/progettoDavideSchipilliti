@@ -30,17 +30,6 @@ public class Run implements Serializable{
 	@Column (name = "SCHEDULE_ID", nullable=false)
 	private Long schedule;
 	
-	public Run() {
-		super();
-	}
-	
-	public Run(Timestamp started, Timestamp finished, String status, Long schedule) {
-		this.started=started;
-		this.finished=finished;
-		this.status=status;
-		this.schedule=schedule;
-	}
-	
 	//Getter and Setter
 	public Long getId() {
 		return id;

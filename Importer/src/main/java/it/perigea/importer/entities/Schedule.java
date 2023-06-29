@@ -15,14 +15,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 import it.perigea.importer.entities.enums.State;
 import it.perigea.importer.entities.enums.Timespan;
 import it.perigea.importer.entities.enums.TypeOfRequest;
 
 @Entity
-@JsonIgnoreProperties("executed")
 public class Schedule implements Serializable{
 	
 	private static final long serialVersionUID = -4323015840387512707L;
@@ -58,7 +55,6 @@ public class Schedule implements Serializable{
 		super();
 		this.executed=new ArrayList<>();
 	}
-	
 	
 	//Getter and Setter
 	public Long getId() {

@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import it.perigea.importer.entities.Schedule;
+import it.perigea.importer.dto.ScheduleDTO;
 import it.perigea.importer.service.ScheduleService;
 
 @RestController
@@ -27,49 +27,60 @@ public class ScheduleController {
 	private ScheduleService scheduleService;
 	
 	@GetMapping("/getAllSchedules")
-	public ResponseEntity<List<Schedule>> getAllSchedules(){
-		List<Schedule> schedules = scheduleService.viewAllSchedules();
+	public ResponseEntity<List<ScheduleDTO>> getAllSchedules(){
+		List<ScheduleDTO> schedules = scheduleService.viewAllSchedules();
 		if (schedules.isEmpty()) {
-			return new ResponseEntity<List<Schedule>> (HttpStatus.NO_CONTENT);
+			return new ResponseEntity<List<ScheduleDTO>> (HttpStatus.NO_CONTENT);
 		}
-		return new ResponseEntity<List<Schedule>> (schedules, HttpStatus.OK);
+		return new ResponseEntity<List<ScheduleDTO>> (schedules, HttpStatus.OK);
 	}
 	
 	@GetMapping("/getScheduleById/{id}")
-	public ResponseEntity<Schedule> getScheduleById(@PathVariable Long id){
-		Schedule schedule = new Schedule();
+	public ResponseEntity<ScheduleDTO> getScheduleById(@PathVariable Long id){
+		ScheduleDTO schedule = null;
 		try {
 			schedule=scheduleService.viewScheduleById(id);
 		} catch (EntityNotFoundException e){
-			return new ResponseEntity<Schedule> (HttpStatus.NOT_FOUND);
+			return new ResponseEntity<ScheduleDTO> (HttpStatus.NOT_FOUND);
 		}
-		return new ResponseEntity<Schedule> (schedule, HttpStatus.OK);
+		return new ResponseEntity<ScheduleDTO> (schedule, HttpStatus.OK);
 	}
 	
+	//Se esiste già uno schedule con quel id lo aggiorna altrimenti ne crea uno nuovo
 	@PutMapping("/setSchedule")
-	public ResponseEntity<Schedule> setSchedule(@RequestBody Schedule scheduleToSave){
+	public ResponseEntity<ScheduleDTO> setSchedule(@RequestBody ScheduleDTO scheduleToSave){
 		scheduleToSave.setCreation(new Timestamp(System.currentTimeMillis() ));
-		Schedule scheduleSaved=scheduleService.setSchedule(scheduleToSave);
-		//Qui devo chiamare il metodo di SchedulerConfig addNewSchedule
-		return new ResponseEntity<Schedule> (scheduleSaved, HttpStatus.OK);
+		ScheduleDTO scheduleSaved=scheduleService.setSchedule(scheduleToSave);
+		return new ResponseEntity<ScheduleDTO> (scheduleSaved, HttpStatus.OK);
 	}
 	
 	@DeleteMapping("/removeSchedule")
-	public ResponseEntity<Schedule> removeSchedule(@RequestBody Schedule scheduleToRemove){
-		Schedule scheduleRemoved = scheduleService.removeSchedule(scheduleToRemove);
-		return new ResponseEntity<Schedule> (scheduleRemoved, HttpStatus.OK);
+	public ResponseEntity<ScheduleDTO> removeSchedule(@RequestBody ScheduleDTO scheduleToRemove){
+		ScheduleDTO scheduleRemoved = null;
+		try {
+			scheduleRemoved=scheduleService.removeSchedule(scheduleToRemove);
+		} catch (EntityNotFoundException e){
+			return new ResponseEntity<ScheduleDTO> (HttpStatus.NOT_FOUND);
+		} catch (IllegalArgumentException e) {
+			return new ResponseEntity<ScheduleDTO> (HttpStatus.BAD_REQUEST);
+		}
+		return new ResponseEntity<ScheduleDTO> (scheduleRemoved, HttpStatus.OK);
 	}
 	
 	@DeleteMapping("/deleteSchedule")
-	public ResponseEntity<Schedule> deleteSchedule(@RequestBody Schedule scheduleToDelete){
-		Schedule scheduleDeleted = scheduleService.deleteSchedule(scheduleToDelete);
-		//al posto di eliminarlo posso mettere status=stopped o aggiungere un campo deleted.
-		return new ResponseEntity<Schedule> (scheduleDeleted, HttpStatus.OK);
+	public ResponseEntity<ScheduleDTO> deleteSchedule(@RequestBody ScheduleDTO scheduleToDelete){
+		ScheduleDTO scheduleDeleted=null;
+		try {
+			scheduleDeleted=scheduleService.deleteSchedule(scheduleToDelete);
+		} catch (EntityNotFoundException e){
+			return new ResponseEntity<ScheduleDTO> (HttpStatus.NOT_FOUND);
+		}
+		return new ResponseEntity<ScheduleDTO> (scheduleDeleted, HttpStatus.OK);
 	}
 	
 	@DeleteMapping("/deleteAllSchedules")
-	public ResponseEntity<List<Schedule>> deleteAllSchedules(){
-		List<Schedule> schedulesDeleted = scheduleService.deleteAllSchedules();
-		return new ResponseEntity<List<Schedule>> (schedulesDeleted, HttpStatus.OK);
+	public ResponseEntity<List<ScheduleDTO>> deleteAllSchedules(){
+		List<ScheduleDTO> schedulesDeleted = scheduleService.deleteAllSchedules();
+		return new ResponseEntity<List<ScheduleDTO>> (schedulesDeleted, HttpStatus.OK);
 	}
 }

@@ -10,11 +10,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import it.perigea.importer.dto.ResponseDTO;
+import it.perigea.importer.dto.RunDTO;
 import it.perigea.importer.dto.mappers.ResponseMapper;
 import it.perigea.importer.dto.serverResponses.AggregatesResponse;
 import it.perigea.importer.dto.serverResponses.GroupedDailyResponse;
 import it.perigea.importer.dto.serverResponses.PreviousCloseResponse;
-import it.perigea.importer.entities.Run;
 import it.perigea.importer.entities.Schedule;
 import it.perigea.importer.entities.enums.Timespan;
 import it.perigea.importer.webclient.ApiWebClient;
@@ -49,8 +49,8 @@ public class WebClientService {
 		Timestamp finished=new Timestamp(System.currentTimeMillis());
 
 		//Aggiungo il job sul DB usando RunService
-		String status=response.getStatus();
-		Run run = new Run(started, finished, status, schedule.getId());
+		String status=response.getStatus();														//lo status dovrei personalizzarlo
+		RunDTO run = new RunDTO(started, finished, status, schedule.getId());
 		runService.setRun(run);
 		
 		ResponseDTO responseDTO=responseMapper.aggregatesResponseToResponseDTO(response);
@@ -74,7 +74,7 @@ public class WebClientService {
 
 		//Aggiungo il job sul DB usando RunService
 		String status=response.getStatus();
-		Run run = new Run(started, finished, status, schedule.getId());
+		RunDTO run = new RunDTO(started, finished, status, schedule.getId());
 		runService.setRun(run);
 		
 		ResponseDTO responseDTO=responseMapper.groupedDailyResponseToResponseDTO(response);
@@ -95,7 +95,7 @@ public class WebClientService {
 
 		//Aggiungo il job sul DB usando RunService
 		String status=response.getStatus();
-		Run run = new Run(started, finished, status, schedule.getId());		//lo status dovrei personalizzarlo
+		RunDTO run = new RunDTO(started, finished, status, schedule.getId());
 		runService.setRun(run);
 		
 		ResponseDTO responseDTO=responseMapper.previousCloseResponseToResponseDTO(response);
