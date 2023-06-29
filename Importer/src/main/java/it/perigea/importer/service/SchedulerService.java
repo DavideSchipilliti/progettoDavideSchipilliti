@@ -1,4 +1,4 @@
-package it.perigea.importer.scheduler;
+package it.perigea.importer.service;
 
 import java.util.HashMap;
 import java.util.List;
@@ -10,17 +10,15 @@ import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.scheduling.support.CronTrigger;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import it.perigea.importer.dto.ResponseDTO;
 import it.perigea.importer.entities.Schedule;
 import it.perigea.importer.entities.enums.State;
 import it.perigea.importer.repository.ScheduleRepository;
-import it.perigea.importer.service.KafkaProducerService;
-import it.perigea.importer.service.WebClientService;
 
-@Component
-public class Scheduler {
+@Service
+public class SchedulerService {
 
 	@Autowired		//uso schedule repository al posto di schedule service per non avere una dipendenza ciclica
 	private ScheduleRepository scheduleRepository;	
