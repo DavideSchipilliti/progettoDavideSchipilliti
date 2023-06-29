@@ -33,9 +33,6 @@ select * from run;
 
 SELECT R.id AS job, S.id AS schedule, S.creation, R.started, R.status, S.type_of_Request, S.cron_expression
 from run AS R Join schedule AS S ON R.schedule_id=S.id
-
-delete from run;
-delete from schedule;
 	   
 INSERT INTO schedule (creation, type_of_request, date1, date2, timespan, multiplier, forex_ticker, cron_expression, state)
 VALUES ('2023-06-20 18:24:32', 'Aggregates', '2023-06-01 18:30:00', '2023-06-01 19:30:00', 'minute', 10, 'C:EURUSD', '0 0/5 * ? * *', 'pending');
@@ -43,3 +40,8 @@ INSERT INTO schedule (creation, type_of_request, date1, cron_expression, state)
 VALUES ('2023-06-20 18:24:44', 'GroupedDaily', '2023-06-01', '0 0/7 * ? * *', 'pending');
 INSERT INTO schedule (creation, type_of_request, forex_ticker, cron_expression, state)
 VALUES ('2023-06-20 18:24:55', 'PreviousClose', 'C:EURUSD', '0 0/2 * ? * *', 'pending');
+
+
+
+delete from run;
+delete from schedule;
