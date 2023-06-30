@@ -1,19 +1,30 @@
 package it.perigea.importer.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.concurrent.ScheduledFuture;
 
+import javax.annotation.PostConstruct;
 import javax.persistence.EntityNotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
+import org.springframework.scheduling.support.CronTrigger;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import it.perigea.importer.dto.ResponseDTO;
 import it.perigea.importer.dto.ScheduleDTO;
 import it.perigea.importer.dto.mappers.ScheduleMapper;
 import it.perigea.importer.entities.Schedule;
 import it.perigea.importer.entities.enums.State;
 import it.perigea.importer.repository.ScheduleRepository;
+
+/* Questa classe ha la funzione di gestire le schedulazioni, sia la loro persistensa (salvare nel DB gli oggetti di tipo Schedule)
+ * sia la loro effettiva scedulazione, viene avviata la schedulazione tramite un TaskScheduler e salvata sulla mappa schedulesRunning.
+*/
 
 @Service
 public class ScheduleService {
@@ -25,8 +36,18 @@ public class ScheduleService {
 	private ScheduleMapper scheduleMapper;
 	
 	@Autowired
-	private SchedulerService scheduler;
+	private WebClientService webClientService;
 	
+	@Autowired
+	private ThreadPoolTaskScheduler taskScheduler;
+	
+	@Autowired
+	private KafkaProducerService kafkaProducerService;
+	
+	private Map<Long, ScheduledFuture<?>> schedulesRunning;
+	
+	
+	//Parte di Gestione della Persistenza
 	
 	public List<ScheduleDTO> viewAllSchedules(){
 		
@@ -57,15 +78,15 @@ public class ScheduleService {
 			Schedule scheduleToUpdate=scheduleToSaveOptional.get();
 			Schedule scheduleUpdated=scheduleMapper.partialUpdate(scheduleToSaveDTO, scheduleToUpdate);		//Voglio davvero il partialUpdate?
 			
-			scheduler.removeSchedule(scheduleToUpdate);
-			scheduler.addNewSchedule(scheduleUpdated);
+			this.removeSchedule(scheduleToUpdate);
+			this.addNewSchedule(scheduleUpdated);
 			
 			scheduleSavedDTO=scheduleMapper.scheduleToScheduleDTO(scheduleUpdated);
 			
 		} else {
 			Schedule scheduleToSave=scheduleMapper.scheduleDTOToSchedule(scheduleToSaveDTO);
 			Schedule scheduleSaved=scheduleRepository.save(scheduleToSave);
-			scheduler.addNewSchedule(scheduleSaved);
+			this.addNewSchedule(scheduleSaved);
 			scheduleSavedDTO=scheduleMapper.scheduleToScheduleDTO(scheduleSaved);
 		}
 		
@@ -86,7 +107,7 @@ public class ScheduleService {
 			throw new IllegalArgumentException("La schedulazione non è in stato di pending.");
 		}
 		
-		scheduler.removeSchedule(scheduleToRemove);
+		this.removeSchedule(scheduleToRemove);
 		scheduleToRemove.setState(State.stopped);
 		
 		Schedule scheduleUpdated=scheduleRepository.save(scheduleToRemove);
@@ -112,9 +133,69 @@ public class ScheduleService {
 	public List<ScheduleDTO> deleteAllSchedules() {
 		
 		List<Schedule> schedulesDeleted=scheduleRepository.findAll();
-		schedulesDeleted.stream().forEach(schedule -> scheduler.removeSchedule(schedule));
+		schedulesDeleted.stream().forEach(schedule -> this.removeSchedule(schedule));
 		scheduleRepository.deleteAll();
 		List<ScheduleDTO> schedulesDeletedDTO=scheduleMapper.listScheduleToListScheduleDTO(schedulesDeleted);
 		return schedulesDeletedDTO;
+	}
+	
+	
+
+	//Parte di Creazione delle Schedulazioni
+	
+	@PostConstruct	//dato che utilizzo dei bean è meglio farlo partire subito dopo la costruzione
+	public void executeOnStartup() {
+		schedulesRunning= new HashMap<>();
+		List<Schedule> schedulesToRun=scheduleRepository.findAll();
+		schedulesToRun.forEach(schedule -> addNewSchedule(schedule));
+	}
+
+	
+	public void addNewSchedule(Schedule schedule) {
+		if(schedule.getState() != State.pending) {
+			return;
+		}
+		
+		CronTrigger trigger=new CronTrigger(schedule.getCronString());
+		
+		//creo una lambda function ed evito di chiamare la classe RunnableTask
+		ScheduledFuture<?> scheduled=taskScheduler.schedule(()-> run(schedule), trigger);
+
+		//aggiungo la schedulazione all'HashMap, chiave=chiave di schedule valore=ScheduledFuture
+		schedulesRunning.put(schedule.getId(), scheduled);
+	}
+	
+	
+	public void removeSchedule(Schedule schedule) {
+		if(schedule.getState() == State.pending) {
+			ScheduledFuture<?> removed=schedulesRunning.remove(schedule.getId());
+			removed.cancel(false);	//true se voglio interrompere il task anche se è in esecuzione in questo momento
+		}
+	}
+	
+	
+	private void run(Schedule schedule) {
+		ResponseDTO response=null;
+		String topic=null;
+		
+		switch(schedule.getTypeOfRequest()) {
+			case Aggregates: 
+				response=webClientService.getAggregates(schedule);
+				topic="AggregatesResponse";
+				break;
+			case GroupedDaily: 
+				response=webClientService.getGroupedDaily(schedule);
+				topic="GroupedDailyResponse";
+				break;
+			case PreviousClose:
+				response=webClientService.getPreviousClose(schedule);
+				topic="PreviousCloseResponse";
+				break;
+		}
+		
+		//invio la risposta a Kafka
+		if(response!=null) {
+			kafkaProducerService.sendResponseToKafka(topic, response);
+		}
 	}
 }
