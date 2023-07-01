@@ -2,9 +2,9 @@ package it.perigea.importer.dto;
 
 import java.sql.Timestamp;
 
-import it.perigea.importer.entities.enums.State;
-import it.perigea.importer.entities.enums.Timespan;
-import it.perigea.importer.entities.enums.TypeOfRequest;
+import it.perigea.importer.enums.State;
+import it.perigea.importer.enums.Timespan;
+import it.perigea.importer.enums.TypeOfRequest;
 
 public class ScheduleDTO {
 

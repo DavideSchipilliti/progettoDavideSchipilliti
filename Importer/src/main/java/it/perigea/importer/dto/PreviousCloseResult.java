@@ -1,19 +1,19 @@
-package it.perigea.importer.dto.serverResponses;
+package it.perigea.importer.dto;
 
 import java.io.Serializable;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class GroupedDailyResult implements Serializable{
-
-	private static final long serialVersionUID = -4680667528024770394L;
+public class PreviousCloseResult implements Serializable{		//uguale a GroupedDailyResult
+	
+	private static final long serialVersionUID = 1117530538960251064L;
 	
 	@JsonProperty("T")
 	private String ticker;
 	@JsonProperty("v")
-	private Long tradingVolume;
+	private Long tradingVolume;			//numero di unità scambiate
 	@JsonProperty("vw")
-	private Float vwap;
+	private Float vwap;					//Volume-Weighted Average Price (prezzo medio ponderato per il volume)
 	@JsonProperty("o")
 	private Float openPrice;
 	@JsonProperty("c")
@@ -27,7 +27,7 @@ public class GroupedDailyResult implements Serializable{
 	@JsonProperty("n")
 	private Integer numberOfTransaction;
 	
-	
+
 	//Getters and Setters
 	public String getTicker() {
 		return ticker;

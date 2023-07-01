@@ -6,8 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import it.perigea.importer.dto.RunDTO;
-import it.perigea.importer.dto.mappers.RunMapper;
 import it.perigea.importer.entities.Run;
+import it.perigea.importer.mappers.RunMapper;
 import it.perigea.importer.repository.RunRepository;
 
 @Service

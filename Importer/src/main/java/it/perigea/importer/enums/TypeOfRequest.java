@@ -1,4 +1,4 @@
-package it.perigea.importer.entities.enums;
+package it.perigea.importer.enums;
 
 public enum TypeOfRequest {
 	Aggregates,

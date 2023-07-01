@@ -17,9 +17,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import it.perigea.importer.dto.ResponseDTO;
 import it.perigea.importer.dto.ScheduleDTO;
-import it.perigea.importer.dto.mappers.ScheduleMapper;
 import it.perigea.importer.entities.Schedule;
-import it.perigea.importer.entities.enums.State;
+import it.perigea.importer.enums.State;
+import it.perigea.importer.mappers.ScheduleMapper;
 import it.perigea.importer.repository.ScheduleRepository;
 
 /* Questa classe ha la funzione di gestire le schedulazioni, sia la loro persistensa (salvare nel DB gli oggetti di tipo Schedule)

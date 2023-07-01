@@ -9,14 +9,14 @@ import javax.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import it.perigea.importer.dto.AggregatesResponse;
+import it.perigea.importer.dto.GroupedDailyResponse;
+import it.perigea.importer.dto.PreviousCloseResponse;
 import it.perigea.importer.dto.ResponseDTO;
 import it.perigea.importer.dto.RunDTO;
-import it.perigea.importer.dto.mappers.ResponseMapper;
-import it.perigea.importer.dto.serverResponses.AggregatesResponse;
-import it.perigea.importer.dto.serverResponses.GroupedDailyResponse;
-import it.perigea.importer.dto.serverResponses.PreviousCloseResponse;
 import it.perigea.importer.entities.Schedule;
-import it.perigea.importer.entities.enums.Timespan;
+import it.perigea.importer.enums.Timespan;
+import it.perigea.importer.mappers.ResponseMapper;
 import it.perigea.importer.webclient.ApiWebClient;
 
 //Questa classe si occupa di fare la chiamata a ApiWebClient, ricevere la risposta e con essa salvare il job sul DB.

@@ -1,4 +1,4 @@
-package it.perigea.importer.dto.mappers;
+package it.perigea.importer.mappers;
 
 import java.util.List;
 

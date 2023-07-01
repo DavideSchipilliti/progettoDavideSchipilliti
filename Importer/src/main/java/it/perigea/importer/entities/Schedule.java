@@ -15,9 +15,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
-import it.perigea.importer.entities.enums.State;
-import it.perigea.importer.entities.enums.Timespan;
-import it.perigea.importer.entities.enums.TypeOfRequest;
+import it.perigea.importer.enums.State;
+import it.perigea.importer.enums.Timespan;
+import it.perigea.importer.enums.TypeOfRequest;
 
 @Entity
 public class Schedule implements Serializable{
