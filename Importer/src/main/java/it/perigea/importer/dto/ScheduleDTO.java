@@ -1,8 +1,6 @@
 package it.perigea.importer.dto;
 
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.List;
 
 import it.perigea.importer.entities.enums.State;
 import it.perigea.importer.entities.enums.Timespan;
@@ -18,14 +16,8 @@ public class ScheduleDTO {
 	private Timespan timespan;
 	private Integer multiplier;
 	private String forexTicker;
-	private List<RunDTO> executed;
 	private String cronString;
 	private State state;
-	
-	public ScheduleDTO() {
-		super();
-		this.executed=new ArrayList<>();
-	}
 
 	//Getters and Setters
 	public Long getId() {
@@ -75,12 +67,6 @@ public class ScheduleDTO {
 	}
 	public void setForexTicker(String forexTicker) {
 		this.forexTicker = forexTicker;
-	}
-	public List<RunDTO> getExecuted() {
-		return executed;
-	}
-	public void setExecuted(List<RunDTO> executed) {
-		this.executed = executed;
 	}
 	public String getCronString() {
 		return cronString;
