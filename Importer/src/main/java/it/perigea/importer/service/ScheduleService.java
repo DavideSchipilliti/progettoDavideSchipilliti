@@ -71,10 +71,14 @@ public class ScheduleService {
 	@Transactional
 	public ScheduleDTO setSchedule(ScheduleDTO scheduleToSaveDTO) {
 		
-		Optional<Schedule> scheduleToSaveOptional=scheduleRepository.findById(scheduleToSaveDTO.getId());
+		Optional<Schedule> scheduleToSaveOptional=null;
 		ScheduleDTO scheduleSavedDTO=null;
 		
-		if(scheduleToSaveOptional.isPresent()) {
+		if (scheduleToSaveDTO.getId()!=null) {
+		scheduleToSaveOptional=scheduleRepository.findById(scheduleToSaveDTO.getId());
+		}
+		
+		if(scheduleToSaveOptional!=null && scheduleToSaveOptional.isPresent()) {
 			Schedule scheduleToUpdate=scheduleToSaveOptional.get();
 			Schedule scheduleUpdated=scheduleMapper.partialUpdate(scheduleToSaveDTO, scheduleToUpdate);		//Voglio davvero il partialUpdate?
 			
