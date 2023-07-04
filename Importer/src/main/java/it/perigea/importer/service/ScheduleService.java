@@ -101,20 +101,38 @@ public class ScheduleService {
 	//Al posto di eliminare dal DB una schedulazione uso removeSchedule() per assegnare state=stopped e interrompere la schedulazione dallo scheduler.
 	//Uso l'id per verificare se la schedulazione esiste, altrimenti sollev un eccezione.
 	@Transactional
-	public ScheduleDTO removeSchedule(ScheduleDTO scheduleToRemoveDTO) {
+	public ScheduleDTO stopSchedule(ScheduleDTO scheduleToStopDTO) {
 		
-		Optional<Schedule> scheduleToRemoveOptional=scheduleRepository.findById(scheduleToRemoveDTO.getId());
-		Schedule scheduleToRemove=scheduleToRemoveOptional.orElseThrow( () -> new EntityNotFoundException("Schedule con id=" + scheduleToRemoveDTO.getId() + " non trovato."));
+		Optional<Schedule> scheduleToStopOptional=scheduleRepository.findById(scheduleToStopDTO.getId());
+		Schedule scheduleToStop=scheduleToStopOptional.orElseThrow( () -> new EntityNotFoundException("Schedule con id=" + scheduleToStopDTO.getId() + " non trovato."));
 		
 		//Controllo che la schedulazione sia effettivamente da stoppare.
-		if (scheduleToRemove.getState()!=State.pending) {
+		if (scheduleToStop.getState()!=State.pending) {
 			throw new IllegalArgumentException("La schedulazione non è in stato di pending.");
 		}
 		
-		this.removeSchedule(scheduleToRemove);
-		scheduleToRemove.setState(State.stopped);
+		this.removeSchedule(scheduleToStop);
+		scheduleToStop.setState(State.stopped);
 		
-		Schedule scheduleUpdated=scheduleRepository.save(scheduleToRemove);
+		Schedule scheduleUpdated=scheduleRepository.save(scheduleToStop);
+		ScheduleDTO scheduleUpdatedDTO=scheduleMapper.scheduleToScheduleDTO(scheduleUpdated);
+		return scheduleUpdatedDTO;
+	}
+	
+	@Transactional
+	public ScheduleDTO startSchedule(ScheduleDTO scheduleToStartDTO) {
+		
+		Optional<Schedule> scheduleToStartOptional=scheduleRepository.findById(scheduleToStartDTO.getId());
+		Schedule scheduleToStart=scheduleToStartOptional.orElseThrow( () -> new EntityNotFoundException("Schedule con id=" + scheduleToStartDTO.getId() + " non trovato."));
+		
+		if (scheduleToStart.getState()!=State.stopped) {
+			throw new IllegalArgumentException("La schedulazione non è in stato di stopped.");
+		}
+
+		scheduleToStart.setState(State.pending);
+		this.addNewSchedule(scheduleToStart);
+		
+		Schedule scheduleUpdated=scheduleRepository.save(scheduleToStart);
 		ScheduleDTO scheduleUpdatedDTO=scheduleMapper.scheduleToScheduleDTO(scheduleUpdated);
 		return scheduleUpdatedDTO;
 	}
@@ -126,6 +144,8 @@ public class ScheduleService {
 		
 		Optional<Schedule> scheduleOptional=scheduleRepository.findById(scheduleDTO.getId());
 		Schedule schedule=scheduleOptional.orElseThrow( () -> new EntityNotFoundException("Schedule con id=" + scheduleDTO.getId() + " non trovato."));
+		
+		this.removeSchedule(schedule);
 		
 		scheduleRepository.delete(schedule);
 		ScheduleDTO scheduleDeletedDTO=scheduleMapper.scheduleToScheduleDTO(schedule);
@@ -177,6 +197,10 @@ public class ScheduleService {
 		}
 	}
 	
+	public void removeAllSchedules() {		//da controllare
+		schedulesRunning.forEach((id, element) -> element.cancel(false));
+		schedulesRunning.clear();
+	}
 	
 	private void run(Schedule schedule) {
 		ResponseDTO response=null;

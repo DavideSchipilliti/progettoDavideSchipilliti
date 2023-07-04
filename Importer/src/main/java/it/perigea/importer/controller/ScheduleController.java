@@ -56,17 +56,30 @@ public class ScheduleController {
 		return new ResponseEntity<ScheduleDTO> (scheduleSaved, HttpStatus.OK);
 	}
 	
-	@DeleteMapping("/removeSchedule")
-	public ResponseEntity<ScheduleDTO> removeSchedule(@RequestBody ScheduleDTO scheduleToRemove){
-		ScheduleDTO scheduleRemoved = null;
+	@PutMapping("/stopSchedule")
+	public ResponseEntity<ScheduleDTO> stopSchedule(@RequestBody ScheduleDTO scheduleToStop){
+		ScheduleDTO scheduleStopped = null;
 		try {
-			scheduleRemoved=scheduleService.removeSchedule(scheduleToRemove);
+			scheduleStopped=scheduleService.stopSchedule(scheduleToStop);
 		} catch (EntityNotFoundException e){
 			return new ResponseEntity<ScheduleDTO> (HttpStatus.NOT_FOUND);
 		} catch (IllegalArgumentException e) {
 			return new ResponseEntity<ScheduleDTO> (HttpStatus.BAD_REQUEST);
 		}
-		return new ResponseEntity<ScheduleDTO> (scheduleRemoved, HttpStatus.OK);
+		return new ResponseEntity<ScheduleDTO> (scheduleStopped, HttpStatus.OK);
+	}
+	
+	@PutMapping("/startSchedule")
+	public ResponseEntity<ScheduleDTO> startSchedule(@RequestBody ScheduleDTO scheduleToStart){
+		ScheduleDTO scheduleStarted = null;
+		try {
+			scheduleStarted=scheduleService.startSchedule(scheduleToStart);
+		} catch (EntityNotFoundException e){
+			return new ResponseEntity<ScheduleDTO> (HttpStatus.NOT_FOUND);
+		} catch (IllegalArgumentException e) {
+			return new ResponseEntity<ScheduleDTO> (HttpStatus.BAD_REQUEST);
+		}
+		return new ResponseEntity<ScheduleDTO> (scheduleStarted, HttpStatus.OK);
 	}
 	
 	@DeleteMapping("/deleteSchedule")
